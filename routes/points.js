@@ -41,23 +41,36 @@ module.exports = (db) => {
 
   //GET point edit form
   router.get("/:points_id/edit", (req, res) => {
+    const id = 1;
+    const name = 'bob';
+    const templateVars = { id, name };
     // if logged in
     // render edit form page
     // if logged out
     // redirect home? login?
-    res.send("go form go");
+    res.render("points_show", templateVars);
   })
 
   //POST point edit form
   router.post("/:point_id/edit", (req, res) => {
-  //if logged in
-  //  set previous record as inactive
-  //  create new points object and copy unchanged info from previous record
-  //  save "edit" of desc/image/title in new points object
-  //  insert new point with updated attributes into db
-  //if logged out
-  //  redirect home? login?
-    res.send(`Edit an existing point`);
+    // STRETCH: require authorization by checking user cookie
+    // STRETCH: protect against SQL Injection
+    const [name, description, img_url] = [req.body.name, req.body.description, req.body.img_url];
+    const point_id = req.params.point_id;
+    db.query(`UPDATE points
+    SET name = '${name}',
+    description = '${description}',
+    img_url = '${img_url}'
+    WHERE id = ${point_id};`)
+    .then(data => {
+      // redirect home? login?
+      res.send(`Edit an existing point`);
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ error: err.message });
+    });
   });
 
   //DELETE an existing point
