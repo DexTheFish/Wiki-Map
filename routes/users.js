@@ -41,13 +41,16 @@ module.exports = (db) => {
     //   redirect home
     // if not logged in:
     //   render the registration form
+    if(req.session.userId) {
+      console.log(req.session);
+      return res.redirect("/maps");
+    }
     const templateVars = { // fake user
-      id: 1,
-      name: "Abi",
-      email: "a@example.ca",
-      password: "password"
+      id: null,
+      name: null,
+      email: null,
+      password: null
       };
-
     res.render("users_register", templateVars);
   });
 
