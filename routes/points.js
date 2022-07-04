@@ -5,10 +5,29 @@
  * See: https://expressjs.com/en/guide/using-middleware.html#middleware.router
  */
 
+
 const express = require('express');
 const router  = express.Router();
 
 module.exports = (db) => {
+
+    //POST a new point 
+    router.post("/new", (req, res) => {
+      res.send(`Add a new point`);
+    });
+  
+    //EDIT an existing point 
+    router.post("/id/edit", (req, res) => {
+      res.send(`Edit an existing point`);
+    });
+
+    //DELETE an existing point 
+    router.post("/id/delete", (req, res) => {
+      res.send(`Delete an existing point`);
+    });
+
+
+  //GET all points information
   router.get("/", (req, res) => {
     db.query(`SELECT * FROM points;`) //query the DB for all the points
       .then(data => {
@@ -21,5 +40,39 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
+
+  //GET point information by ID
+  router.get("/:id", (req, res) => {
+    console.log(req.params);
+    db.query(`SELECT * FROM points WHERE id = ${req.params.id};`) 
+      .then(data => {
+        const points = data.rows;
+        res.json({ points }); 
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+
+
+
+      // router.get("/:id", (req, res) => {
+      //   console.log(req.params);
+      //   db.query(`SELECT * FROM points WHERE id = ${req.params.id};`) 
+      //     .then(data => {
+      //       const points = data.rows;
+      //       res.json({ points }); 
+      //     })
+      //     .catch(err => {
+      //       res
+      //         .status(500)
+      //         .json({ error: err.message });
+      //     });
+  });
+
+
   return router;
+
+
 };
