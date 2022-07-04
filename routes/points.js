@@ -17,7 +17,15 @@ module.exports = (db) => {
     //    show form for create new point
     // if logged out
     //  redirect home? login?
-    res.send("I am a new point form");
+    // res.send("I am a new point form");
+
+    const templateVars = { // fake user
+      id: 1,
+      name: "Abi",
+      email: "a@example.ca",
+      password: "password"
+      };
+    res.render("points_new", templateVars);
   })
 
   //POST a new point
@@ -40,7 +48,7 @@ module.exports = (db) => {
     res.send("go form go");
   })
 
-  //EDIT an existing point
+  //POST point edit form
   router.post("/:point_id/edit", (req, res) => {
   //if logged in
   //  set previous record as inactive
