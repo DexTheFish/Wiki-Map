@@ -22,6 +22,7 @@ module.exports = (db) => {
   })
 
   router.get("/profile", (req, res) => {
+  // this is in /maps because the queries will look like SELECT * FROM maps
     res.send("Show profile page of logged in user");
   })
 
