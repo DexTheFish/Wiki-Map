@@ -10,7 +10,7 @@ const router  = express.Router();
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
-    res.send("show all active maps");
+    res.send("show all active maps ABII");
   });
 
   router.post("/", (req, res) => {
