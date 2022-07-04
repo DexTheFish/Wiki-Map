@@ -28,7 +28,18 @@ module.exports = (db) => {
   });
 
   router.get("/register", (req, res) => {
-    res.send("Registration Page");
+    const templateVars = { // fake user
+      id: 1,
+      name: "Abi",
+      email: "a@example.ca",
+      password: "password"
+      };
+      const templateVars2 = {
+        id: null,
+      name: "",
+      email: "",
+      }
+    res.render("users_register", templateVars2);
   });
 
   router.get("/login", (req, res) => {
