@@ -32,11 +32,14 @@ module.exports = (db) => {
   });
 
   router.get("/:points_id/edit", (req, res) => {
+    const id = 1;
+    const name = 'bob';
+    const templateVars = { id, name };
     // if logged in
     // render edit form page
     // if logged out
     // redirect home? login?
-    res.send("go form go");
+    res.render("points_show", templateVars);
   })
 
   //EDIT an existing point
