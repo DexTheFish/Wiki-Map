@@ -11,7 +11,7 @@ const router  = express.Router();
 
 module.exports = (db) => {
 
-  //
+  //GET a new point form
   router.get("/new", (req, res) => {
     //  if logged in
     //    show form for create new point
@@ -31,6 +31,7 @@ module.exports = (db) => {
     res.send(`Add a new point`);
   });
 
+  //GET point edit form
   router.get("/:points_id/edit", (req, res) => {
     // if logged in
     // render edit form page

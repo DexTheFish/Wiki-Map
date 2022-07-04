@@ -11,7 +11,7 @@ const router  = express.Router();
 module.exports = (db) => {
   //example route provided in skeleton
   router.get("/", (req, res) => {
-    db.query(`SELECT * FROM users;`) //query the DB for all the users
+    db.query(`SELECT * FROM maps;`) //query the DB for all the users
       .then(data => {
         const users = data.rows;
         res.json({ users }); // send all the users to the browser as a JSON object

@@ -16,7 +16,6 @@ module.exports = (db) => {
     res.send("show all active maps ABII");
   });
 
-
   router.post("/", (req, res) => {
     // only if logged in
     //    create map object
