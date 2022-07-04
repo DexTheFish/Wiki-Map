@@ -1,0 +1,64 @@
+{
+    "points": [
+      {
+        "id": 1,
+        "name": "Epic Location 1",
+        "description": "best spot in the whole city!",
+        "img_url": "https://i.imgur.com/V6UPvSu.jpeg",
+        "longitude": "-79.38",
+        "latitude": "43.65",
+        "active": true,
+        "map_id": 1
+      },
+      {
+        "id": 2,
+        "name": "Epic Location 2",
+        "description": "where that epic thing nearly happened once",
+        "img_url": "https://i.imgur.com/5tQsEPU.jpeg",
+        "longitude": "-79.35",
+        "latitude": "43.65",
+        "active": true,
+        "map_id": 2
+      },
+      {
+        "id": 3,
+        "name": "Epic Location 3",
+        "description": "I remember an epic thing happened HERE last tuesday.",
+        "img_url": "https://i.imgur.com/V6UPvSu.jpeg",
+        "longitude": "-79.35",
+        "latitude": "43.62",
+        "active": true,
+        "map_id": 3
+      },
+      {
+        "id": 4,
+        "name": "Epic Location 4",
+        "description": "this place has really great food!",
+        "img_url": "https://i.imgur.com/5tQsEPU.jpeg",
+        "longitude": "-79.33",
+        "latitude": "43.67",
+        "active": true,
+        "map_id": 4
+      },
+      {
+        "id": 5,
+        "name": "Epic Location 5",
+        "description": "where that epic thing happened that one time",
+        "img_url": "https://i.imgur.com/V6UPvSu.jpeg",
+        "longitude": "-79.35",
+        "latitude": "43.65",
+        "active": true,
+        "map_id": 2
+      },
+      {
+        "id": 6,
+        "name": "Epic Location 5",
+        "description": "always a good time at epic location five.",
+        "img_url": "https://i.imgur.com/zDEs51F.jpeg",
+        "longitude": "-79.37",
+        "latitude": "43.67",
+        "active": true,
+        "map_id": 2
+      }
+    ]
+  }

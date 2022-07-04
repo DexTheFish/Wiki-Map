@@ -1,0 +1,52 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Abi",
+      "email": "a@example.ca",
+      "password": "password"
+    },
+    {
+      "id": 2,
+      "name": "Cal",
+      "email": "c@example.ca",
+      "password": "password"
+    },
+    {
+      "id": 3,
+      "name": "Dex",
+      "email": "d@example.ca",
+      "password": "password"
+    },
+    {
+      "id": 4,
+      "name": "Alice",
+      "email": "alice96@lighthouse.com",
+      "password": "password"
+    },
+    {
+      "id": 5,
+      "name": "Alfonso",
+      "email": "Alfonso21@abc.ca",
+      "password": "password"
+    },
+    {
+      "id": 6,
+      "name": "Kira",
+      "email": "kiki@abc.com",
+      "password": null
+    },
+    {
+      "id": 7,
+      "name": "Bolu",
+      "email": null,
+      "password": "password"
+    },
+    {
+      "id": 8,
+      "name": "Rico",
+      "email": null,
+      "password": null
+    }
+  ]
+}

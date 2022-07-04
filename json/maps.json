@@ -1,0 +1,39 @@
+{
+  "maps": [
+    {
+      "id": 1,
+      "name": "Abigails amazing attractions",
+      "description": "these are all the amazing spots that I recommend. Hope to see you there!",
+      "active": true,
+      "creator_id": 1
+    },
+    {
+      "id": 2,
+      "name": "Calvins cool creation",
+      "description": "Wow, just discovered this cool app! Check out this map I made!",
+      "active": true,
+      "creator_id": 2
+    },
+    {
+      "id": 3,
+      "name": "Declans dearest destinations",
+      "description": "Wow, just made this cool map! Check it out to see my favourite libraries around the neighborhood.",
+      "active": true,
+      "creator_id": 3
+    },
+    {
+      "id": 4,
+      "name": "Toronto",
+      "description": null,
+      "active": true,
+      "creator_id": 1
+    },
+    {
+      "id": 5,
+      "name": "Montreal",
+      "description": null,
+      "active": false,
+      "creator_id": null
+    }
+  ]
+}
