@@ -10,16 +10,29 @@ const router  = express.Router();
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
-    db.query(`SELECT * FROM maps;`) //query the DB for all the maps
-      .then(data => {
-        const maps = data.rows;
-        res.json({ maps }); // send all the users to the browser as a JSON object
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
-      });
+    res.send("show all active maps");
   });
+
+  router.post("/", (req, res) => {
+    res.send('Create a new map');
+  })
+
+  router.get("/new", (req, res) => {
+    res.send('display a form for creating a new map');
+  })
+
+  router.get("/profile", (req, res) => {
+  // this is in /maps because the queries will look like SELECT * FROM maps
+    res.send("Show profile page of logged in user");
+  })
+
+  router.get("/:map_id", (req, res) => {
+    res.send(`show the map ${req.params.map_id}`);
+  })
+
+  router.delete("/:map_id", (req, res) => {
+    res.send(`delete the map ${req.params.map_id}`);
+  })
+
   return router;
 };
