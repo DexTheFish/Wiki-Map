@@ -9,6 +9,8 @@ const express = require('express');
 const router  = express.Router();
 
 module.exports = (db) => {
+
+//GET all active maps  
   router.get("/", (req, res) => {
     // grab all maps
     // render maps_home
@@ -16,6 +18,7 @@ module.exports = (db) => {
     res.send("show all active maps ABII");
   });
 
+  //POST create a new map
   router.post("/", (req, res) => {
     // only if logged in
     //    create map object
@@ -26,23 +29,27 @@ module.exports = (db) => {
     res.send('Create a new map');
   })
 
+  //GET new map form
   router.get("/new", (req, res) => {
     // if logged in
     //    render page with form for new
     res.send('display a form for creating a new map');
   })
 
+  //GET subset of user's maps
   router.get("/profile", (req, res) => {
   // this is in /maps because the queries will look like SELECT * FROM maps
   // if logged in query faves, query contribution maps, all??
     res.send("Show profile page of logged in user");
   })
 
+  //GET map by ID
   router.get("/:map_id", (req, res) => {
     res.send(`show the map ${req.params.map_id}`);
   })
 
-  router.delete("/:map_id", (req, res) => {
+  //POST delete map by ID
+  router.post("/:map_id", (req, res) => {
     res.send(`delete the map ${req.params.map_id}`);
   })
 
