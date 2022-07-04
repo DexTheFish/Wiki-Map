@@ -11,68 +11,65 @@ const router  = express.Router();
 
 module.exports = (db) => {
 
-    //POST a new point 
-    router.post("/new", (req, res) => {
-      res.send(`Add a new point`);
-    });
-  
-    //EDIT an existing point 
-    router.post("/id/edit", (req, res) => {
-      res.send(`Edit an existing point`);
-    });
+  //
+  router.get("/new", (req, res) => {
+    //  if logged in
+    //    show form for create new point
+    // if logged out
+    //  redirect home? login?
+    res.send("I am a new point form");
+  })
 
-    //DELETE an existing point 
-    router.post("/id/delete", (req, res) => {
-      res.send(`Delete an existing point`);
-    });
+  //POST a new point
+  router.post("/new", (req, res) => {
+    //if logged in
+    //  create point object
+    //  save to db (later)
+    //if logged out
+    // redirect home? login?
 
+    res.send(`Add a new point`);
+  });
 
-  //GET all points information
-  router.get("/", (req, res) => {
-    db.query(`SELECT * FROM points;`) //query the DB for all the points
-      .then(data => {
-        const points = data.rows;
-        res.json({ points }); // send all the points to the browser as a JSON object (?)
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
-      });
+  router.get("/:points_id/edit", (req, res) => {
+    // if logged in
+    // render edit form page
+    // if logged out
+    // redirect home? login?
+    res.send("go form go");
+  })
+
+  //EDIT an existing point
+  router.post("/:point_id/edit", (req, res) => {
+  //if logged in
+  //  set previous record as inactive
+  //  create new points object and copy unchanged info from previous record
+  //  save "edit" of desc/image/title in new points object
+  //  insert new point with updated attributes into db
+  //if logged out
+  //  redirect home? login?
+    res.send(`Edit an existing point`);
+  });
+
+  //DELETE an existing point
+  router.post("/:point_id/delete", (req, res) => {
+    // if logged in:
+    //  SELECT point from db
+    //  set active = FALSE
+    //  redirect to somewhere
+    // if not logged in:
+    //  complain
+    //  redirect to home? login?
+    res.send(`Delete an existing point`);
   });
 
   //GET point information by ID
-  router.get("/:id", (req, res) => {
-    console.log(req.params);
-    db.query(`SELECT * FROM points WHERE id = ${req.params.id};`) 
-      .then(data => {
-        const points = data.rows;
-        res.json({ points }); 
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
-      });
-
-
-
-      // router.get("/:id", (req, res) => {
-      //   console.log(req.params);
-      //   db.query(`SELECT * FROM points WHERE id = ${req.params.id};`) 
-      //     .then(data => {
-      //       const points = data.rows;
-      //       res.json({ points }); 
-      //     })
-      //     .catch(err => {
-      //       res
-      //         .status(500)
-      //         .json({ error: err.message });
-      //     });
-  });
+  router.get("/:point_id", (req, res) => {
+    // query db with point_id
+    // render details about point
+    res.send("i am a point");
+ });
 
 
   return router;
-
-
 };
