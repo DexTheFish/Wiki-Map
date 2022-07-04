@@ -5,6 +5,7 @@
  * See: https://expressjs.com/en/guide/using-middleware.html#middleware.router
  */
 
+
 const express = require('express');
 const router  = express.Router();
 
@@ -53,6 +54,21 @@ module.exports = (db) => {
           .status(500)
           .json({ error: err.message });
       });
+
+
+
+      // router.get("/:id", (req, res) => {
+      //   console.log(req.params);
+      //   db.query(`SELECT * FROM points WHERE id = ${req.params.id};`) 
+      //     .then(data => {
+      //       const points = data.rows;
+      //       res.json({ points }); 
+      //     })
+      //     .catch(err => {
+      //       res
+      //         .status(500)
+      //         .json({ error: err.message });
+      //     });
   });
 
 
