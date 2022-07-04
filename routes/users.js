@@ -24,33 +24,50 @@ module.exports = (db) => {
   });
 
   router.post("/", (req, res) => {
+    // create new user object
+    // insert into db --> later when we do db stuff
+    // redirect home
     res.send("You have created a new User");
   });
 
   router.get("/register", (req, res) => {
+    // if logged in:
+    //   redirect home
+    // if not logged in:
+    //   render the registration form
     const templateVars = { // fake user
       id: 1,
       name: "Abi",
       email: "a@example.ca",
       password: "password"
       };
-      const templateVars2 = {
-        id: null,
-      name: "",
-      email: "",
-      }
-    res.render("users_register", templateVars2);
+    res.render("users_register", templateVars);
   });
 
   router.get("/login", (req, res) => {
+    // if logged in:
+    //   redirect home
+    // if not logged in:
+    //   render the login form
     res.send("Login Page");
   });
 
   router.post("/login", (req, res) => {
+    // use the req.body to query the db
+    // if a user matches the info:
+    //   set cookie <-> id
+    //   redirect home
+    // if no match:
+    //   redirect to login
+    //   error handling - client side, worry later
     res.send("You have successfully logged in!");
   });
 
   router.post("/logout", (req, res) => {
+    // if logged in
+    //  clear cookie
+    // if not
+    //  redirect home
     res.send("You have successfully logged out!");
   });
 
