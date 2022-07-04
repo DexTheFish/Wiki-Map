@@ -53,6 +53,7 @@ module.exports = (db) => {
   });
 
   router.post("/login", (req, res) => {
+    // STRETCH: User Authentication
     // use the req.body to query the db
     // if a user matches the info:
     //   set cookie <-> id
@@ -62,6 +63,14 @@ module.exports = (db) => {
     //   error handling - client side, worry later
     res.send("You have successfully logged in!");
   });
+
+  router.get("/login/:user_id", (req, res) => {
+    // MVP: bypass user authentication
+    // set the cookie id to user_id like below:
+    // req.session.userId = req.params.user_id
+    // redirect home (profile?)
+    res.send(`u r now logged in as ${req.body.user_id}`)
+  })
 
   router.post("/logout", (req, res) => {
     // if logged in
