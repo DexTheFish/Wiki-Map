@@ -1,7 +1,7 @@
 /*
- * All routes for Users are defined here
- * Since this file is loaded in server.js into api/users,
- *   these routes are mounted onto /users
+ * All routes for points are defined here
+ * Since this file is loaded in server.js into api/points,
+ *   these routes are mounted onto /points
  * See: https://expressjs.com/en/guide/using-middleware.html#middleware.router
  */
 
@@ -10,10 +10,10 @@ const router  = express.Router();
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
-    db.query(`SELECT * FROM users;`) //query the DB for all the users
+    db.query(`SELECT * FROM points;`) //query the DB for all the points
       .then(data => {
-        const users = data.rows;
-        res.json({ users }); // send all the users to the browser as a JSON object
+        const points = data.rows;
+        res.json({ points }); // send all the points to the browser as a JSON object (?)
       })
       .catch(err => {
         res
