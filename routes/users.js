@@ -9,6 +9,7 @@ const express = require('express');
 const router  = express.Router();
 
 module.exports = (db) => {
+  //example route provided in skeleton
   router.get("/", (req, res) => {
     db.query(`SELECT * FROM users;`) //query the DB for all the users
       .then(data => {
@@ -23,19 +24,19 @@ module.exports = (db) => {
   });
 
   router.get("/register", (req, res) => {
-
+    res.send("Registration Page");
   });
 
   router.get("/login", (req, res) => {
-
+    res.send("Login Page");
   });
 
   router.post("/login", (req, res) => {
-
+    res.send("You have successfully logged in!");
   });
 
   router.post("/logout", (req, res) => {
-
+    res.send("You have successfully logged out!");
   });
 
   return router;
