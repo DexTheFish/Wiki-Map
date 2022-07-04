@@ -8,10 +8,12 @@
 const express = require('express');
 const router  = express.Router();
 
+const bcrypt = require('bcrypt');
+
 module.exports = (db) => {
   //example route provided in skeleton
   router.get("/", (req, res) => {
-    db.query(`SELECT * FROM maps;`) //query the DB for all the users
+    db.query(`SELECT * FROM users;`) //query the DB for all the users
       .then(data => {
         const users = data.rows;
         res.json({ users }); // send all the users to the browser as a JSON object
@@ -23,13 +25,17 @@ module.exports = (db) => {
       });
   });
 
+  //POST create a new user
   router.post("/", (req, res) => {
-    // create new user object
-    // insert into db --> later when we do db stuff
-    // redirect home
-    res.send("You have created a new User");
+    const user = req.body;
+    user.password = bcrypt.hashSync(user.password, 12);
+    console.log(user);
+    //insert new user into db --> later when we do db stuff
+    //set session id to new user id ---> req.session.userId = user.id
+    res.redirect("/maps");
   });
 
+  // GET new user form
   router.get("/register", (req, res) => {
     // if logged in:
     //   redirect home
@@ -41,6 +47,7 @@ module.exports = (db) => {
       email: "a@example.ca",
       password: "password"
       };
+
     res.render("users_register", templateVars);
   });
 
