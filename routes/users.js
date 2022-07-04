@@ -23,6 +23,10 @@ module.exports = (db) => {
       });
   });
 
+  router.post("/", (req, res) => {
+    res.send("You have created a new User");
+  });
+
   router.get("/register", (req, res) => {
     res.send("Registration Page");
   });
