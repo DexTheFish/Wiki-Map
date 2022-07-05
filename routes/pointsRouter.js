@@ -44,7 +44,7 @@ module.exports = (db) => {
     //if logged out
     // redirect home? login?
     console.log(req.body);
-    
+
     const latitude = 0;
     const longitude = 0;
     const map_id = 1;
@@ -124,7 +124,21 @@ module.exports = (db) => {
   router.get("/:point_id", (req, res) => {
     // query db with point_id
     // render details about point
-    res.send("i am a point");
+    const templateVars = {
+      id: req.session.userId,
+      name: 'bob',
+      point: {
+        "id": 1,
+        "name": "Epic Location 1",
+        "description": "best spot in the whole city!",
+        "img_url": "https://i.imgur.com/V6UPvSu.jpeg",
+        "longitude": "-79.38",
+        "latitude": "43.65",
+        "active": true,
+        "map_id": 1
+      }
+    };
+    res.render("points_point", templateVars);
  });
 
 
