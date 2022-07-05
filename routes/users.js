@@ -44,12 +44,12 @@ module.exports = (db) => {
       }
       console.log(results.rows[0]);
       req.session.userId = results.rows[0].id;
+      res.redirect("/maps");
     })
     .catch((err) => {
       console.log(err.message);
       res.send(err.message);
     });
-    res.redirect("/maps");
   });
 
   // GET new user form
