@@ -19,20 +19,14 @@
 <body>
   <%- include('partials/_header') %>
   <main class="card" style="margin: 5%;">
-    <div id="map" style="height: 30em; width: 100%">
-      <script>
-        var map = L.map('map').setView([51.5, -0.09], 17); // [lat, long],
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 25,
-          attribution: '© OpenStreetMap'
-        }).addTo(map);
-        var marker = L.marker([51.5, -0.09]).addTo(map);
-        marker.bindPopup(`<img style="height: 100%; width: 100%" class="card-img-top" src="https://i.imgur.com/V6UPvSu.jpeg" alt="Card image cap">`).openPopup();
-      </script>
+    <div id="point_map" style="height: 30em; width: 100%">
+
     </div>
     <div class="card-body">
         <h5 class="card-title"><%- point.name %></h5>
         <p class="card-text"><%- point.description %></p>
+        <p class="card-text">Coordinates: [<span id="lat"><%- point.latitude %></span>,<span id="long"><%- point.longitude %>]</span> </p>
+
         <a href="/maps/<%- point.map_id %>" class="btn btn-primary">Return to Map</a>
         <a href="/points/<%- point.id %>/edit" class="btn btn-primary">Edit</a>
     </div>
@@ -43,5 +37,18 @@
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+  <script>
+    const lat = parseFloat(document.getElementById('lat').innerHTML);
+    const long = parseFloat(document.getElementById('long').innerHTML);
+
+    var map = L.map('point_map').setView([lat, long], 17); // [lat, long],
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 25,
+      attribution: '© OpenStreetMap'
+    }).addTo(map);
+    var marker = L.marker([lat, long]).addTo(map);
+    marker.bindPopup(`<img style="height: 100%; width: 100%" class="card-img-top" src="https://i.imgur.com/V6UPvSu.jpeg" alt="Card image cap">`).openPopup();
+  </script>
 </body>
 </html>
