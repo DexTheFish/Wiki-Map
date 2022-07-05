@@ -39,7 +39,7 @@ module.exports = (db) => {
     VALUES ('${name}', '${description}', '${creator_id}') RETURNING *;`)
     .then(data => {
       console.log(map.rows[0]);
-      return res.send("you made a map"); // should instead redirect to /:map_id
+      return res.redirect("/:mad_id"); 
     })
     .catch(err => {
       res
@@ -124,9 +124,9 @@ module.exports = (db) => {
     SET active = false
     WHERE id = ${req.params.map_id}`
     db.query(queryString)
-    console.log(queryString)
     .then(map => {
-      return res.redirect("maps");
+      console.log(queryString)
+      return res.redirect("/maps");
     })
   .catch(err => {
     res
