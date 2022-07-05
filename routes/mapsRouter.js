@@ -18,7 +18,7 @@ module.exports = (db) => {
     WHERE active = true`
     db.query(queryString)
     .then(data => {
-      const templateVars = { maps: data.rows, id: req.session.id, name: 'bob' };
+      const templateVars = { maps: data.rows, id: req.session.userId, name: req.session.name};
       return res.render("maps_index", templateVars);
     })
     .catch(err => {
@@ -35,7 +35,7 @@ module.exports = (db) => {
     if(req.session.userId) {
       const templateVars = {
         id: req.session.userId,
-        name: "bob" //hardcoding name for now
+        name: req.session.name
       }
       return res.render("maps_new", templateVars);
     }
@@ -47,16 +47,16 @@ module.exports = (db) => {
     //STRETCH: use cookies to adjust creator_id
     //STRETCH: use cookies to authorize map creation
     const [name, description] = [req.body.name, req.body.description];
-    const creator_id = 1; // use cookies to adjust
+    const creator_id = req.session.userId;
     const queryString = `
     INSERT INTO maps
     (name, description, creator_id)
     VALUES
-    ($1, $2, ${creator_id} )
+    ($1, $2, $3)
     RETURNING *`
-    db.query(queryString, [name, description])
+    db.query(queryString, [name, description, creator_id])
     .then(data => {
-      return res.redirect("/maps");
+      return res.redirect("/maps"); //maybe redirect to newly created map instead
     })
     .catch(err => {
       res
@@ -124,12 +124,12 @@ module.exports = (db) => {
     SELECT maps.*, users.name as creator_name
     FROM maps
     JOIN users ON maps.creator_id = users.id
-    WHERE maps.id = ${req.params.map_id}`
-    db.query(queryString)
+    WHERE maps.id = $1`
+    db.query(queryString, [req.params.map_id])
     .then(map => {
       const [map_id, map_name, description, creator_name] = [map.rows[0].id, map.rows[0].name,map.rows[0].description, map.rows[0].creator_name];
-      const id = 1; //temp for template vars
-      const name = 'bob'; //temp for template vars
+      const id = req.session.userId;
+      const name = req.session.name;
       const templateVars = { id, name, map_id, map_name, description, creator_name };
       return res.render("maps_show", templateVars);
     })
@@ -150,8 +150,8 @@ module.exports = (db) => {
     db.query(queryString)
     .then(map => {
       const [map_id, map_name, description, creator_name] = [map.rows[0].id, map.rows[0].name,map.rows[0].description, map.rows[0].creator_name];
-      const id = 1; //temp for template vars
-      const name = 'bob'; //temp for template vars
+      const id = req.session.userId;
+      const name = req.session.name;
       const templateVars = { id, name, map_id, map_name, description, creator_name };
       return res.render("maps_edit", templateVars);
     })
