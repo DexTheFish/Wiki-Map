@@ -43,14 +43,17 @@ module.exports = (db) => {
     //  save to db (later)
     //if logged out
     // redirect home? login?
-    console.log(req.body);
-
     const latitude = 0;
     const longitude = 0;
     const map_id = 1;
-    let queryString = `INSERT INTO points (name, description, img_url, longitude, latitude, map_id)
-    VALUES ( $1, $2, $3, ${longitude}, ${latitude}, ${map_id} ) RETURNING *`
-    db.query(queryString, [req.body.name, req.body.description, req.body.img_url])
+    const [name, description, img_url] = [req.body.name, req.body.description, req.body.img_url];
+    let queryString = `
+    INSERT INTO points 
+    (name, description, img_url, longitude, latitude, map_id)
+    VALUES 
+    ( $1, $2, $3, ${longitude}, ${latitude}, ${map_id} ) 
+    RETURNING *`
+    db.query(queryString, [name, description, img_url])
     .then(data => {
       // redirect home? login?
       res.send(`Point added to map!`);
@@ -67,9 +70,11 @@ module.exports = (db) => {
     // use point_id to query for name, description, img_url
     // put them into templateVars
     const point_id = req.params.point_id;
-    db.query(`SELECT name, description, img_url
+    let queryString = (`
+    SELECT name, description, img_url
     FROM points
     WHERE id = ${point_id};`)
+    db.query(queryString)
     .then(data => {
       const point_name = data.rows[0].name;
       const description = data.rows[0].description;
@@ -89,14 +94,15 @@ module.exports = (db) => {
   //POST point edit form
   router.post("/:point_id/edit", (req, res) => {
     // STRETCH: require authorization by checking user cookie
-    // STRETCH: protect against SQL Injection
     const [name, description, img_url] = [req.body.name, req.body.description, req.body.img_url];
     const point_id = req.params.point_id;
-    db.query(`UPDATE points
-    SET name = '${name}',
-    description = '${description}',
-    img_url = '${img_url}'
-    WHERE id = ${point_id};`)
+    let queryString = (`
+    UPDATE points
+    SET name = $1,
+    description = $2,
+    img_url = $3
+    WHERE id = ${point_id}`)
+    db.query(queryString, [name, description, img_url])
     .then(data => {
       // redirect home? login?
       return res.redirect("back");
@@ -109,7 +115,7 @@ module.exports = (db) => {
   });
 
   //DELETE an existing point
-  router.delete("/:point_id/delete", (req, res) => {
+  router.post("/:point_id/delete", (req, res) => {
     // if logged in:
     //  SELECT point from db
     //  set active = FALSE
@@ -117,7 +123,22 @@ module.exports = (db) => {
     // if not logged in:
     //  complain
     //  redirect to home? login?
-    res.send(`Delete an existing point`);
+    const point_id = req.params.point_id;
+    let queryString = `
+    UPDATE points
+    SET active = false
+    WHERE id = ${point_id}`
+    console.log(queryString)
+    db.query(queryString)
+    .then(data => {
+      return res.redirect("back");
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ error: err.message });
+    });
+    res.send(`Point deleted!`);
   });
 
   //GET point information by ID
