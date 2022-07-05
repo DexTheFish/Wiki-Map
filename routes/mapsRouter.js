@@ -42,20 +42,6 @@ module.exports = (db) => {
     return res.redirect("/maps");
   });
 
-  //GET new map form
-  router.get("/new", (req, res) => {
-    // if logged in
-    //    render page with form for new
-    if(req.session.userId) {
-      const templateVars = {
-        id: req.session.userId,
-        name: req.session.name
-      }
-      return res.render("maps_new", templateVars);
-    }
-    return res.redirect("/maps");
-  });
-
   //POST create a new map
   router.post("/", (req, res) => {
     //STRETCH: use cookies to adjust creator_id
@@ -78,6 +64,20 @@ module.exports = (db) => {
         .json({ error: err.message });
     });
   })
+
+  //GET new map form
+  router.get("/new", (req, res) => {
+    // if logged in
+    //    render page with form for new
+    if(req.session.userId) {
+      const templateVars = {
+        id: req.session.userId,
+        name: req.session.name
+      }
+      return res.render("maps_new", templateVars);
+    }
+    return res.redirect("/maps");
+  });
 
   //GET subset of user's maps
   router.get("/profile", (req, res) => {
@@ -162,7 +162,7 @@ module.exports = (db) => {
     });
   });
 
-  //POST edit map by id
+  //POST edit by id
   router.post("/:map_id/edit", (req, res) => {
     const [name, description] = [req.body.name, req.body.description];
     const map_id = req.params.map_id;
@@ -173,7 +173,7 @@ module.exports = (db) => {
     WHERE id = ${map_id}`
     db.query(queryString, [name, description])
     .then(data => {
-      return res.redirect(`/maps/${req.params.map_id}`);
+      res.redirect(`/maps/${req.params.map_id}`);
     })
     .catch(err => {
       res
@@ -201,16 +201,32 @@ module.exports = (db) => {
     });
   });
 
+
+
+ //POST edit by id
+ router.post("/:map_id/edit", (req, res) => {
+  const [name, description] = [req.body.name, req.body.description];
+  const map_id = req.params.map_id;
+  const queryString = `
+  UPDATE maps
+  SET name = $1,
+  description = $2
+  WHERE id = ${map_id}`
+  db.query(queryString, [name, description])
+  .then(data => {
+    res.redirect(`/maps/${req.params.map_id}`);
+  })
+  .catch(err => {
+    res
+      .status(500)
+      .json({ error: err.message });
+  });
+});
+
   //POST add favourite map
   router.post("/:map_id/favs", (req, res) => {
     //query to add to favourites table
     res.redirect('back');
-  })
-
-  //POST edit by id
-  router.post("/:map_id/edit", (req, res) => {
-    //query to change the map's name, description, ...
-    res.redirect(`/maps/${req.params.map_id}`);
   })
 
   //POST add a map to user's favourites
