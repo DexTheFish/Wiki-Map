@@ -12,11 +12,12 @@ module.exports = (db) => {
 
 //GET all active maps
   router.get("/", (req, res) => {
+    console.log('made it this far');
     // if logged in option to add map (html side)
     const queryString = `SELECT * FROM maps LIMIT 5;`
     db.query(queryString)
     .then(data => {
-      const templateVars = { maps: map.rows };
+      const templateVars = { maps: data.rows };
       return res.render("maps_index", templateVars);
     })
     .catch(err => {
