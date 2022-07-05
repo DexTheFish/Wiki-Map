@@ -76,23 +76,24 @@ module.exports = (db) => {
   });
 
   router.get("/login", (req, res) => {
-    // if logged in:
-    //   redirect home
-    // if not logged in:
-    //   render the login form
-    res.send("Login Page");
+    const templateVars = {id: null, name: null};
+    res.render("users_login.ejs", templateVars);
   });
 
   router.post("/login", (req, res) => {
+    req.session = null;
+
+    // for now we will not verify the password
     // STRETCH: User Authentication
-    // use the req.body to query the db
-    // if a user matches the info:
-    //   set cookie <-> id
-    //   redirect home
-    // if no match:
-    //   redirect to login
-    //   error handling - client side, worry later
-    res.send("You have successfully logged in!");
+    //  use the req.body to query the db
+    //  if a user matches the info:
+    //    set cookie <-> id
+    //    redirect home
+    //  if no match:
+    //    redirect to login
+    //    show angry message
+    const email = req.body.email;
+    res.redirect("/maps");
   });
 
   router.get("/login/:user_id", (req, res) => {
