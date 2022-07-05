@@ -81,7 +81,8 @@ module.exports = (db) => {
   });
 
   router.post("/login", (req, res) => {
-    const email = req.body.email;
+    req.session = null;
+
     // for now we will not verify the password
     // STRETCH: User Authentication
     //  use the req.body to query the db
@@ -91,6 +92,7 @@ module.exports = (db) => {
     //  if no match:
     //    redirect to login
     //    show angry message
+    const email = req.body.email;
     res.redirect("/maps");
   });
 
