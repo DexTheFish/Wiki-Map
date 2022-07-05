@@ -34,7 +34,7 @@ module.exports = (db) => {
     //STRETCH: use cookies to authorize map creation
     const [name, description] = [req.body.name, req.body.description];
     const creator_id = 1; // use cookies to adjust
-    let queryString = `
+    const queryString = `
     INSERT INTO maps
     (name, description, creator_id)
     VALUES 
@@ -96,7 +96,7 @@ module.exports = (db) => {
 
   //GET map by ID
   router.get("/:map_id", (req, res) => {
-    let queryString = `
+    const queryString = `
     SELECT maps.*, users.name as creator_name
     FROM maps
     JOIN users ON maps.creator_id = users.id
@@ -122,7 +122,7 @@ module.exports = (db) => {
 
   //POST delete map by ID
   router.post("/:map_id/delete", (req, res) => {
-    let queryString = `
+    const queryString = `
     UPDATE maps
     SET active = false
     WHERE id = ${req.params.map_id}`

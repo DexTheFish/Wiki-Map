@@ -13,8 +13,11 @@ const bcrypt = require('bcrypt');
 module.exports = (db) => {
   //example route provided in skeleton
   router.get("/", (req, res) => {
-    db.query(`SELECT * FROM users;`) //query the DB for all the users
-      .then(data => {
+    const queryString = `
+    SELECT * 
+    FROM users` //query the DB for all the users
+    db.query(queryString)
+    .then(data => {
         const users = data.rows;
         res.json({ users }); // send all the users to the browser as a JSON object
       })
@@ -31,12 +34,11 @@ module.exports = (db) => {
     user.password = bcrypt.hashSync(user.password, 12);
     console.log(user);
 
-    const queryText = `
+    const queryString = `
     INSERT INTO users (name, email, password)
     VALUES ($1, $2, $3)
-    RETURNING *
-    `;
-    db.query(queryText, [user.name, user.email, user.password])
+    RETURNING *`
+    db.query(queryString, [user.name, user.email, user.password])
     .then((results) => {
       if(!results) {
         res.send({error: "error adding user"});
