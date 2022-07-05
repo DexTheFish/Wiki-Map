@@ -40,16 +40,28 @@ module.exports = (db) => {
   });
 
   //GET point edit form
-  router.get("/:points_id/edit", (req, res) => {
-    const id = 1;
-    const name = 'bob';
-    const templateVars = { id, name };
-    // if logged in
-    // render edit form page
-    // if logged out
-    // redirect home? login?
-    res.render("points_show", templateVars);
-  })
+  router.get("/:point_id/edit", (req, res) => {
+    // use point_id to query for name, description, img_url
+    // put them into templateVars
+    const point_id = req.params.point_id;
+    db.query(`SELECT name, description, img_url
+    FROM points
+    WHERE id = ${point_id};`)
+    .then(data => {
+      const point_name = data.rows[0].name;
+      const description = data.rows[0].description;
+      const img_url = data.rows[0].img_url;
+      const id = 1; //replace with id from cookie
+      const name = 'bob';  // replace with name from cookie
+      const templateVars = { id, name, point_id, point_name, description, img_url };
+      return res.render("points_show", templateVars);
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ error: err.message });
+    });
+  });
 
   //POST point edit form
   router.post("/:point_id/edit", (req, res) => {
@@ -64,7 +76,7 @@ module.exports = (db) => {
     WHERE id = ${point_id};`)
     .then(data => {
       // redirect home? login?
-      res.send(`Edit an existing point`);
+      res.redirect("back");
     })
     .catch(err => {
       res
@@ -74,7 +86,7 @@ module.exports = (db) => {
   });
 
   //DELETE an existing point
-  router.post("/:point_id/delete", (req, res) => {
+  router.delete("/:point_id/delete", (req, res) => {
     // if logged in:
     //  SELECT point from db
     //  set active = FALSE

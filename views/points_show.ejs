@@ -26,22 +26,24 @@
     <!--HEADER ENDS-->
 
     <main style="margin: 1em;">
-      <h3>This is a Point</h3>
-      <form method="POST" action="/points/">
+      <h3>Edit or Delete <%=point_name%> </h3>
+      <form method="POST" action="/points/<%=point_id%>/edit">
         <div class="form-group">
-          <label for="inputName">name of point</label>
-          <input class="form-control" name="name" aria-describedby="emailHelp" value="Current Name of my point">
+          <label for="inputName">Change name</label>
+          <input class="form-control" name="name" aria-describedby="emailHelp" value="<%=point_name%>">
         </div>
         <div class="form-group">
           <label for="inputDescription">description</label>
-          <input class="form-control" name="description" value="Current Description for my point" >
+          <input class="form-control" name="description" value="<%=description%>" >
         </div>
         <div class="form-group">
-          <label for="inputImgURL">image</label>
-          <input class="form-control" name="description" value="current image url for my point" >
+          <label for="inputImage">image</label>
+          <input class="form-control" name="img_url" value="<%=img_url%>" >
         </div>
         <button type="submit" class="btn btn-primary">Edit</button>
-        <button type="submit" class="btn btn-danger">Delete</button>
+      </form>
+      <form method="DELETE" action="/points/<%=point_id%>/delete">
+          <button type="submit" class="btn btn-danger">Delete</button>
       </form>
       <div id="map" style="height: 360px; width: 720px">
         <script>
