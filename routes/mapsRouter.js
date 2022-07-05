@@ -12,10 +12,18 @@ module.exports = (db) => {
 
 //GET all active maps
   router.get("/", (req, res) => {
-    // grab all maps
-    // render maps_home
     // if logged in option to add map (html side)
-    res.send("show all active maps ABII");
+    const queryString = `SELECT * FROM maps LIMIT 5;`
+    db.query(queryString)
+    .then(data => {
+      const templateVars = { maps: data.rows };
+      return res.render("maps_index", templateVars);
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ error: err.message });
+    });
   });
 
   //POST create a new map
