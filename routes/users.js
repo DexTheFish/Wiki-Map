@@ -30,8 +30,25 @@ module.exports = (db) => {
     const user = req.body;
     user.password = bcrypt.hashSync(user.password, 12);
     console.log(user);
-    //insert new user into db --> later when we do db stuff
-    //set session id to new user id ---> req.session.userId = user.id
+
+    const queryText = `
+    INSERT INTO users (name, email, password)
+    VALUES ($1, $2, $3)
+    RETURNING *
+    `;
+    db.query(queryText, [user.name, user.email, user.password])
+    .then((results) => {
+      if(!results) {
+        res.send({error: "error adding user"});
+        return;
+      }
+      console.log(results.rows[0]);
+      req.session.userId = results.rows[0].id;
+    })
+    .catch((err) => {
+      console.log(err.message);
+      res.send(err.message);
+    });
     res.redirect("/maps");
   });
 
@@ -41,8 +58,12 @@ module.exports = (db) => {
     //   redirect home
     // if not logged in:
     //   render the registration form
+    // if(req.session.userId) {
+    //   console.log(req.session);
+    //   return res.redirect("/maps");
+    // }
     if(req.session.userId) {
-      console.log(req.session);
+      console.log(req.session.userId);
       return res.redirect("/maps");
     }
     const templateVars = { // fake user
@@ -87,6 +108,7 @@ module.exports = (db) => {
     //  clear cookie
     // if not
     //  redirect home
+    req.session = null;
     res.send("You have successfully logged out!");
   });
 
