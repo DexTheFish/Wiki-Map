@@ -18,7 +18,7 @@ module.exports = (db) => {
     WHERE active = true`
     db.query(queryString)
     .then(data => {
-      const templateVars = { maps: data.rows };
+      const templateVars = { maps: data.rows, id: req.session.id, name: 'bob' };
       return res.render("maps_index", templateVars);
     })
     .catch(err => {
