@@ -16,7 +16,7 @@ module.exports = (db) => {
     const queryString = `SELECT * FROM maps LIMIT 5;`
     db.query(queryString)
     .then(data => {
-      const templateVars = { maps: data.rows };
+      const templateVars = { maps: map.rows };
       return res.render("maps_index", templateVars);
     })
     .catch(err => {
@@ -38,7 +38,7 @@ module.exports = (db) => {
     (name, description, creator_id)
     VALUES ('${name}', '${description}', '${creator_id}') RETURNING *;`)
     .then(data => {
-      console.log(data.rows[0]);
+      console.log(map.rows[0]);
       return res.send("you made a map"); // should instead redirect to /:map_id
     })
     .catch(err => {
@@ -93,7 +93,29 @@ module.exports = (db) => {
 
   //GET map by ID
   router.get("/:map_id", (req, res) => {
-    res.send(`show the map ${req.params.map_id}`);
+    let queryString = `
+    SELECT maps.*, users.name as creator_name
+    FROM maps
+    JOIN users ON maps.creator_id = users.id
+    WHERE maps.id = ${req.params.map_id}`
+    db.query(queryString)
+    .then(map => {
+        const map_id = map.rows[0].id; //replace with id from cookie
+        const map_name = map.rows[0].name;
+        const description = map.rows[0].description;
+        const img_url = map.rows[0].img_url;
+        const creator_name = map.rows[0].creator_name;
+        const id = 1;
+        const name = 'bob';
+        const templateVars = { id, name, map_id, map_name, description, img_url, creator_name };
+        return res.render("maps_show", templateVars);
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ error: err.message });
+    });
+  //  res.send(`show the map ${req.params.map_id}`);
   })
 
   //POST delete map by ID
