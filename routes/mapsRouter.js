@@ -12,9 +12,10 @@ module.exports = (db) => {
 
 //GET all active maps
   router.get("/", (req, res) => {
-    console.log('made it this far');
     // if logged in option to add map (html side)
-    const queryString = `SELECT * FROM maps LIMIT 5;`
+    const queryString = `
+    SELECT * FROM maps
+    WHERE active = true`
     db.query(queryString)
     .then(data => {
       const templateVars = { maps: data.rows };
@@ -31,16 +32,17 @@ module.exports = (db) => {
   router.post("/", (req, res) => {
     //STRETCH: use cookies to adjust creator_id
     //STRETCH: use cookies to authorize map creation
-    //STRETCH: protect against SQL Injection
-    const name = req.body.name;
-    const description = req.body.description;
+    const [name, description] = [req.body.name, req.body.description];
     const creator_id = 1; // use cookies to adjust
-    db.query(`INSERT INTO maps
+    let queryString = `
+    INSERT INTO maps
     (name, description, creator_id)
-    VALUES ('${name}', '${description}', '${creator_id}') RETURNING *;`)
+    VALUES 
+    ($1, $2, ${creator_id} )
+    RETURNING *`
+    db.query(queryString, [name, description])
     .then(data => {
-      console.log(map.rows[0]);
-      return res.redirect("/:mad_id"); 
+      return res.redirect("/maps"); 
     })
     .catch(err => {
       res

@@ -104,12 +104,8 @@ module.exports = (db) => {
   })
 
   router.post("/logout", (req, res) => {
-    // if logged in
-    //  clear cookie
-    // if not
-    //  redirect home
     req.session = null;
-    res.send("You have successfully logged out!");
+    res.redirect("/users/register"); // CHANGE TO LOGIN once the login endpoints are connected to users_login.ejs
   });
 
   return router;
