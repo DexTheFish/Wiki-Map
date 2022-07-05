@@ -11,6 +11,14 @@ const router  = express.Router();
 
 module.exports = (db) => {
 
+  //check for login in router, only need to be done once
+  // router.use((req, res, next) => {
+  //   if (!req.cookies.user_id) {
+  //     return res.redirect('/login');
+  //   }
+  //  next();
+  // });
+
   //GET a new point form
   router.get("/new", (req, res) => {
     //  if logged in
@@ -35,8 +43,23 @@ module.exports = (db) => {
     //  save to db (later)
     //if logged out
     // redirect home? login?
-
-    res.send(`Add a new point`);
+    console.log(req.body);
+    
+    const latitude = 0;
+    const longitude = 0;
+    const map_id = 1;
+    let queryString = `INSERT INTO points (name, description, img_url, longitude, latitude, map_id)
+    VALUES ( $1, $2, $3, ${longitude}, ${latitude}, ${map_id} ) RETURNING *`
+    db.query(queryString, [req.body.name, req.body.description, req.body.img_url])
+    .then(data => {
+      // redirect home? login?
+      res.send(`Point added to map!`);
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ error: err.message });
+    });
   });
 
   //GET point edit form
