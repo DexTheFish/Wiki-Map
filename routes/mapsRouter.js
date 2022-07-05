@@ -58,8 +58,30 @@ module.exports = (db) => {
   router.get("/profile", (req, res) => {
   // this is in /maps because the queries will look like SELECT * FROM maps
   // if logged in query faves, query contribution maps, all??
-    res.send("Show profile page of logged in user");
-  })
+    if(req.session.userId){
+    //need to add database query but first must update db schema
+    const templateVars = {
+      name: "bob",
+      id: 1,
+      faves: [{
+        id: 1,
+        name: "Abigails amazing attractions",
+        description: "these are all the amazing spots that I recommend. Hope to see you there!",
+        active: true,
+        creator_id: 1
+      }, {
+        "id": 1,
+        "name": "Abigails amazing attractions",
+        "description": "these are all the amazing spots that I recommend. Hope to see you there!",
+        "active": true,
+        "creator_id": 1
+      }],
+      contributions: null
+    };
+    return res.render("maps_profile", templateVars);
+    }
+    return res.redirect("/maps");
+  });
 
   //GET map by ID
   router.get("/:map_id", (req, res) => {
