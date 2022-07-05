@@ -99,7 +99,7 @@ module.exports = (db) => {
     WHERE id = ${point_id};`)
     .then(data => {
       // redirect home? login?
-      res.redirect("back");
+      return res.redirect("back");
     })
     .catch(err => {
       res

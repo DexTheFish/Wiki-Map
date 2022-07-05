@@ -20,13 +20,24 @@ module.exports = (db) => {
 
   //POST create a new map
   router.post("/", (req, res) => {
-    // only if logged in
-    //    create map object
-    //    save to db
-    //    redirect /:map_id
-    // if not logged in
-    //    redirect /users/login
-    res.send('Create a new map');
+    //STRETCH: use cookies to adjust creator_id
+    //STRETCH: use cookies to authorize map creation
+    //STRETCH: protect against SQL Injection
+    const name = req.body.name;
+    const description = req.body.description;
+    const creator_id = 1; // use cookies to adjust
+    db.query(`INSERT INTO maps
+    (name, description, creator_id)
+    VALUES ('${name}', '${description}', '${creator_id}') RETURNING *;`)
+    .then(data => {
+      console.log(data.rows[0]);
+      return res.send("you made a map"); // should instead redirect to /:map_id
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ error: err.message });
+    });
   })
 
   //GET new map form
