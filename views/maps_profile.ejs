@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <title>Rosette</title>
+</head>
+<body>
+  <%- include('partials/_header') %>
+  <main style="margin: 1em;">
+
+    <% if (!name) { %>
+      <h3>Please Login</h3>
+      <p>To view this content please first login.</p>
+
+    <%} else { %>
+      <h3><%= name %>'s Profile</h3>
+
+        <div class="row py-5">
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">My Favourite Maps</h5>
+                <p class="card-text">Jump to a list of your favourited maps here!</p>
+                <a href="#favourites" class="btn btn-primary">Favourites</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Maps I've Contributed To</h5>
+                <p class="card-text">Jump to a list of maps you have contributed points to here!</p>
+                <a href="#contributions" class="btn btn-primary">Contributions</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <% if (faves) { %>
+          <h4 id="favourites">My Fave Map's</h4>
+        <table class="table table-bordered table-hover">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">Map Name</th>
+              <th scope="col">Description</th>
+              <th scope="col">View</th>
+              <th scope="col">Edit</th>
+              <th scope="col">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for(const map of faves) { %>
+              <tr>
+                <td><%= map.name%></td>
+                <td><%-map.description%></td>
+                <td><button type="button" class="btn btn-outline-primary"><a href="/maps/<%= map.id %>">View</a></button></td>
+                <td><button type="button" class="btn btn-outline-primary"><a href="/maps/<%= map.id %>">Edit</a></button></td>
+                <td><form class="form-inline" method="POST" action="/maps/<%= map.id %>/delete"><button type="submit" class="btn btn-outline-danger">Delete</button></form></td>
+              </tr>
+            <% } %>
+          </tbody>
+        </table>
+        <% } else { %>
+          <h4>You have no Favourite Maps</h4>
+        <% } %>
+        <hr>
+        <% if (contributions) { %>
+          <h4 id="contributions">Map's I've Contributed To</h4>
+        <table class="table table-bordered table-hover">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">Map Name</th>
+              <th scope="col">Description</th>
+              <th scope="col">View</th>
+              <th scope="col">Edit</th>
+              <th scope="col">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for(const map of contributions) { %>
+              <tr>
+                <td><%= map.name%></td>
+                <td><%-map.description%></td>
+                <td><button type="button" class="btn btn-outline-primary"><a href="/maps/<%= map.id %>">View</a></button></td>
+                <td><button type="button" class="btn btn-outline-primary"><a href="/maps/<%= map.id %>">Edit</a></button></td>
+                <td><form class="form-inline" method="POST" action="/maps/<%= map.id %>/delete"><button type="submit" class="btn btn-outline-danger">Delete</button></form></td>
+              </tr>
+            <% } %>
+          </tbody>
+        </table>
+        <% } else { %>
+          <h4>You have no Contributions</h4>
+        <% } %>
+    <% } %>
+  </main>
+  <!-- Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
