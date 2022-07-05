@@ -47,7 +47,7 @@ module.exports = (db) => {
     const longitude = 0;
     const map_id = 1;
     const [name, description, img_url] = [req.body.name, req.body.description, req.body.img_url];
-    let queryString = `
+    const queryString = `
     INSERT INTO points 
     (name, description, img_url, longitude, latitude, map_id)
     VALUES 
@@ -70,7 +70,7 @@ module.exports = (db) => {
     // use point_id to query for name, description, img_url
     // put them into templateVars
     const point_id = req.params.point_id;
-    let queryString = (`
+    const queryString = (`
     SELECT name, description, img_url
     FROM points
     WHERE id = ${point_id};`)
@@ -124,7 +124,7 @@ module.exports = (db) => {
     //  complain
     //  redirect to home? login?
     const point_id = req.params.point_id;
-    let queryString = `
+    const queryString = `
     UPDATE points
     SET active = false
     WHERE id = ${point_id}`

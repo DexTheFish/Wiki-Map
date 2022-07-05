@@ -27,7 +27,7 @@
 
     <main style="margin: 1em;">
       <h3>Edit or Delete Point: <%= point_name %> </h3>
-     
+
       <form method="POST" action="/points/<%= point_id %>/edit">
         <div class="form-group">
           <label for="inputName">Change name</label>
@@ -41,7 +41,7 @@
 
         <div class="form-group">
           <label for="inputImage">image</label>
-          <input class="form-control" name="img_url" value="<%= img_ur l%>" >
+          <input class="form-control" name="img_url" value="<%=img_url%>" >
         </div>
 
         <button type="submit" class="btn btn-primary">Edit</button>
