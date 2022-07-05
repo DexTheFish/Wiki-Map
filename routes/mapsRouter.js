@@ -207,12 +207,6 @@ module.exports = (db) => {
     res.redirect('back');
   })
 
-  //POST edit by id
-  router.post("/:map_id/edit", (req, res) => {
-    //query to change the map's name, description, ...
-    res.redirect(`/maps/${req.params.map_id}`);
-  })
-
   //POST add a map to user's favourites
 
   //POST remove a map from user's favourites
