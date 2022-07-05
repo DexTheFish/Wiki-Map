@@ -10,7 +10,7 @@ const router  = express.Router();
 
 module.exports = (db) => {
 
-//GET all active maps
+  //GET all active maps
   router.get("/", (req, res) => {
     // if logged in option to add map (html side)
     const queryString = `
@@ -103,15 +103,53 @@ module.exports = (db) => {
     WHERE maps.id = ${req.params.map_id}`
     db.query(queryString)
     .then(map => {
-      const map_id = map.rows[0].id; //replace with id from cookie
-      const map_name = map.rows[0].name;
-      const description = map.rows[0].description;
-      const img_url = map.rows[0].img_url;
-      const creator_name = map.rows[0].creator_name;
-      const id = 1;
-      const name = 'bob';
-      const templateVars = { id, name, map_id, map_name, description, img_url, creator_name };
+      const [map_id, map_name, description, creator_name] = [map.rows[0].id, map.rows[0].name,map.rows[0].description, map.rows[0].creator_name];
+      const id = 1; //temp for template vars
+      const name = 'bob'; //temp for template vars
+      const templateVars = { id, name, map_id, map_name, description, creator_name };
       return res.render("maps_show", templateVars);
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ error: err.message });
+    });
+  });
+
+  //GET map edit form by ID
+  router.get("/:map_id/edit", (req, res) => {
+    const queryString = `
+    SELECT maps.*, users.name as creator_name
+    FROM maps
+    JOIN users ON maps.creator_id = users.id
+    WHERE maps.id = ${req.params.map_id}`
+    db.query(queryString)
+    .then(map => {
+      const [map_id, map_name, description, creator_name] = [map.rows[0].id, map.rows[0].name,map.rows[0].description, map.rows[0].creator_name];
+      const id = 1; //temp for template vars
+      const name = 'bob'; //temp for template vars
+      const templateVars = { id, name, map_id, map_name, description, creator_name };
+      return res.render("maps_edit", templateVars);
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ error: err.message });
+    });
+  });
+
+  //POST edit by id
+  router.post("/:map_id/edit", (req, res) => {
+    const [name, description] = [req.body.name, req.body.description];
+    const map_id = req.params.map_id;
+    const queryString = `
+    UPDATE maps
+    SET name = $1,
+    description = $2
+    WHERE id = ${map_id}`
+    db.query(queryString, [name, description])
+    .then(data => {
+      res.redirect(`/maps/${req.params.map_id}`);
     })
     .catch(err => {
       res
@@ -122,10 +160,11 @@ module.exports = (db) => {
 
   //POST delete map by ID
   router.post("/:map_id/delete", (req, res) => {
+    const map_id = req.params.map_id;
     const queryString = `
     UPDATE maps
     SET active = false
-    WHERE id = ${req.params.map_id}`
+    WHERE id = ${map_id}`
     db.query(queryString)
     .then(map => {
       console.log(queryString)
@@ -139,15 +178,9 @@ module.exports = (db) => {
   });
 
   //POST add favourite map
-  router.post("/:map_id/favourites", (req, res) => {
+  router.post("/:map_id/favs", (req, res) => {
     //query to add to favourites table
     res.redirect('back');
-  })
-
-  //POST edit by id
-  router.post("/:map_id/edit", (req, res) => {
-    //query to change the map's name, description, ...
-    res.redirect(`/maps/${req.params.map_id}`);
   })
 
 return router;

@@ -7,43 +7,27 @@
 </head>
 
 <body>
-    <!--HEADER BEGINS-->
-    <%- include('partials/_header') %>
-    <!--HEADER ENDS-->
-    
-    <main style="margin: 1em;">
-  <!-- <div class="card text-left">
-    <div class="card-header"></div> -->
-      <div class="card-body">
-        <h5 class="card-title">Map by: <%= creator_name  %></h5>
-        <main style="margin: 1em;">
-          
-          <h3>Edit or Delete Map: <%=map_name%> </h3>
-
-        <form method="POST" action="/maps/<%= map_id %>/edit">
-          <div class="form-group">
-            <label for="inputName">Change name</label>
-            <input class="form-control" name="name" aria-describedby="emailHelp" value="<%= map_name %>">
-          </div>
+  <!--HEADER BEGINS-->
+  <%- include('partials/_header') %>
+  <!--HEADER ENDS-->
   
-          <div class="form-group">
-            <label for="inputDescription">description</label>
-            <input class="form-control" name="description" value="<%= description %>">
-          </div>
-         
-          <button type="submit" class="btn btn-primary">Edit</button>
-        </form>
-  
-        <form method="POST" action="/maps/<%= map_id %>/delete">
-            <button type="submit" class="btn btn-danger">Delete</button>
-        </form>
-
-
-
-
+  <main style="margin: 1em;">
+    <h3>Edit or Delete Map: <%=map_name%> </h3>
+    <p>Map by: <%= creator_name  %></p>
+    <form method="POST" action="/maps/<%= map_id %>/edit">
+      <div class="form-group">
+        <label for="inputName">Change map name</label>
+        <input class="form-control" name="name" aria-describedby="emailHelp" value="<%= map_name %>">
       </div>
-    <div class="card-footer text-muted"></div>
-  </div>
+      <div class="form-group">
+        <label for="inputDescription">Change map description</label>
+        <input class="form-control" name="description" value="<%= description %>">
+      </div>
+      <button type="submit" class="btn btn-primary">Edit</button>
+    </form>
+    <form method="POST" action="/maps/<%= map_id %>/delete">
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
   </main>
   
   <!-- Bootstrap JS -->
