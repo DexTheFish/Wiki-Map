@@ -28,6 +28,20 @@ module.exports = (db) => {
     });
   });
 
+  //GET new map form
+  router.get("/new", (req, res) => {
+    // if logged in
+    //    render page with form for new
+    if(req.session.userId) {
+      const templateVars = {
+        id: req.session.userId,
+        name: "bob" //hardcoding name for now
+      }
+      return res.render("maps_new", templateVars);
+    }
+    return res.redirect("/maps");
+  });
+
   //POST create a new map
   router.post("/", (req, res) => {
     //STRETCH: use cookies to adjust creator_id
@@ -51,19 +65,6 @@ module.exports = (db) => {
     });
   })
 
-  //GET new map form
-  router.get("/new", (req, res) => {
-    // if logged in
-    //    render page with form for new
-    if(req.session.userId) {
-      const templateVars = {
-        id: req.session.userId,
-        name: "bob" //hardcoding name for now
-      }
-      return res.render("maps_new", templateVars);
-    }
-    return res.redirect("/maps");
-  });
 
   //GET subset of user's maps
   router.get("/profile", (req, res) => {
@@ -149,6 +150,10 @@ module.exports = (db) => {
     //query to change the map's name, description, ...
     res.redirect(`/maps/${req.params.map_id}`);
   })
+
+  //POST add a map to user's favourites
+
+  //POST remove a map from user's favourites
 
 return router;
 };

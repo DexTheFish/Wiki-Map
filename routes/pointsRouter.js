@@ -36,7 +36,7 @@ module.exports = (db) => {
     res.render("points_new", templateVars);
   })
 
-  //POST a new point
+  //POST create a new point
   router.post("/new", (req, res) => {
     //if logged in
     //  create point object
@@ -56,7 +56,7 @@ module.exports = (db) => {
     db.query(queryString, [name, description, img_url])
     .then(data => {
       // redirect home? login?
-      res.send(`Point added to map!`);
+      return res.redirect(`/maps/:${map_id}`);
     })
     .catch(err => {
       res
@@ -65,7 +65,29 @@ module.exports = (db) => {
     });
   });
 
-  //GET point edit form
+  //GET point by ID
+  router.get("/:point_id", (req, res) => {
+    // query db with point_id
+    // render details about point
+    const templateVars = {
+      id: req.session.userId,
+      name: 'bob',
+      point: {
+        "id": 1,
+        "name": "Epic Location 1",
+        "description": "best spot in the whole city!",
+        "img_url": "https://i.imgur.com/V6UPvSu.jpeg",
+        "longitude": "-79.38",
+        "latitude": "43.65",
+        "active": true,
+        "map_id": 1
+      }
+    };
+    res.render("points_point", templateVars);
+  });
+
+
+  //GET point edit form by ID
   router.get("/:point_id/edit", (req, res) => {
     // use point_id to query for name, description, img_url
     // put them into templateVars
@@ -91,20 +113,19 @@ module.exports = (db) => {
     });
   });
 
-  //POST point edit form
+  //POST edit point by ID
   router.post("/:point_id/edit", (req, res) => {
     // STRETCH: require authorization by checking user cookie
     const [name, description, img_url] = [req.body.name, req.body.description, req.body.img_url];
     const point_id = req.params.point_id;
-    let queryString = (`
+    let queryString = `
     UPDATE points
     SET name = $1,
     description = $2,
     img_url = $3
-    WHERE id = ${point_id}`)
+    WHERE id = ${point_id}`
     db.query(queryString, [name, description, img_url])
     .then(data => {
-      // redirect home? login?
       return res.redirect("back");
     })
     .catch(err => {
@@ -114,7 +135,7 @@ module.exports = (db) => {
     });
   });
 
-  //DELETE an existing point
+  //POST delete point by ID
   router.post("/:point_id/delete", (req, res) => {
     // if logged in:
     //  SELECT point from db
@@ -138,29 +159,9 @@ module.exports = (db) => {
         .status(500)
         .json({ error: err.message });
     });
-    res.send(`Point deleted!`);
   });
 
-  //GET point information by ID
-  router.get("/:point_id", (req, res) => {
-    // query db with point_id
-    // render details about point
-    const templateVars = {
-      id: req.session.userId,
-      name: 'bob',
-      point: {
-        "id": 1,
-        "name": "Epic Location 1",
-        "description": "best spot in the whole city!",
-        "img_url": "https://i.imgur.com/V6UPvSu.jpeg",
-        "longitude": "-79.38",
-        "latitude": "43.65",
-        "active": true,
-        "map_id": 1
-      }
-    };
-    res.render("points_point", templateVars);
- });
+
 
 
   return router;

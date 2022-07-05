@@ -41,13 +41,13 @@
 
         <div class="form-group">
           <label for="inputImage">image</label>
-          <input class="form-control" name="img_url" value="<%=img_url%>" >
+          <input class="form-control" name="img_url" value="<%= img_url %>" >
         </div>
 
         <button type="submit" class="btn btn-primary">Edit</button>
       </form>
 
-      <form method="POST" action="/points/<%=point_id%>/delete">
+      <form method="POST" action="/points/<%= point_id %>/delete">
           <button type="submit" class="btn btn-danger">Delete</button>
       </form>
 
