@@ -201,28 +201,6 @@ module.exports = (db) => {
     });
   });
 
-
-
- //POST edit by id
- router.post("/:map_id/edit", (req, res) => {
-  const [name, description] = [req.body.name, req.body.description];
-  const map_id = req.params.map_id;
-  const queryString = `
-  UPDATE maps
-  SET name = $1,
-  description = $2
-  WHERE id = ${map_id}`
-  db.query(queryString, [name, description])
-  .then(data => {
-    res.redirect(`/maps/${req.params.map_id}`);
-  })
-  .catch(err => {
-    res
-      .status(500)
-      .json({ error: err.message });
-  });
-});
-
   //POST add favourite map
   router.post("/:map_id/favs", (req, res) => {
     //query to add to favourites table
