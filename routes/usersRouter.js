@@ -13,8 +13,11 @@ const bcrypt = require('bcrypt');
 module.exports = (db) => {
   //example route provided in skeleton
   router.get("/", (req, res) => {
-    db.query(`SELECT * FROM users;`) //query the DB for all the users
-      .then(data => {
+    const queryString = `
+    SELECT *
+    FROM users` //query the DB for all the users
+    db.query(queryString)
+    .then(data => {
         const users = data.rows;
         res.json({ users }); // send all the users to the browser as a JSON object
       })
@@ -31,12 +34,11 @@ module.exports = (db) => {
     user.password = bcrypt.hashSync(user.password, 12);
     console.log(user);
 
-    const queryText = `
+    const queryString = `
     INSERT INTO users (name, email, password)
     VALUES ($1, $2, $3)
-    RETURNING *
-    `;
-    db.query(queryText, [user.name, user.email, user.password])
+    RETURNING *`
+    db.query(queryString, [user.name, user.email, user.password])
     .then((results) => {
       if(!results) {
         res.send({error: "error adding user"});
@@ -76,23 +78,24 @@ module.exports = (db) => {
   });
 
   router.get("/login", (req, res) => {
-    // if logged in:
-    //   redirect home
-    // if not logged in:
-    //   render the login form
-    res.send("Login Page");
+    const templateVars = {id: null, name: null};
+    res.render("users_login.ejs", templateVars);
   });
 
   router.post("/login", (req, res) => {
+    req.session = null;
+
+    // for now we will not verify the password
     // STRETCH: User Authentication
-    // use the req.body to query the db
-    // if a user matches the info:
-    //   set cookie <-> id
-    //   redirect home
-    // if no match:
-    //   redirect to login
-    //   error handling - client side, worry later
-    res.send("You have successfully logged in!");
+    //  use the req.body to query the db
+    //  if a user matches the info:
+    //    set cookie <-> id
+    //    redirect home
+    //  if no match:
+    //    redirect to login
+    //    show angry message
+    const email = req.body.email;
+    res.redirect("/maps");
   });
 
   router.get("/login/:user_id", (req, res) => {
@@ -100,16 +103,24 @@ module.exports = (db) => {
     // set the cookie id to user_id like below:
     // req.session.userId = req.params.user_id
     // redirect home (profile?)
-    res.send(`u r now logged in as ${req.body.user_id}`)
-  })
+    const queryString = `
+    SELECT name
+    FROM users
+    WHERE id = $1
+    `;
+    db.query(queryString, [req.params.user_id])
+    .then((results) => {
+      req.session.userId = req.params.user_id; //set cookie userId
+      req.session.name = results.rows[0]; //set cookie name
+      console.log(req.session.name);
+      res.redirect("/maps/profile");
+    })
+    .catch(err=>res.send(err.message));
+  });
 
   router.post("/logout", (req, res) => {
-    // if logged in
-    //  clear cookie
-    // if not
-    //  redirect home
     req.session = null;
-    res.send("You have successfully logged out!");
+    res.redirect("/users/register"); // CHANGE TO LOGIN once the login endpoints are connected to users_login.ejs
   });
 
   return router;
