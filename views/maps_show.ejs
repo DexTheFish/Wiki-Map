@@ -19,9 +19,12 @@
 
         
         <h3>Edit Map</h3>
-        <form class="form-inline" action="/urls/<%=  %>/" method="POST">
-         
-            <button type="submit" class="btn btn-primary">Update</button>
+        <form class="form-inline" action="" method="POST">
+          <button type="submit" class="btn btn-primary">Edit</button>
+
+        <h3>Delete Map</h3>
+        <form class="form-inline" action="/maps/<%= map_id %>/delete" method="POST">
+          <button type="submit" class="btn btn-primary">Delete</button>            
           </div>
         </form>
       </div>

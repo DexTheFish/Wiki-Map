@@ -100,28 +100,39 @@ module.exports = (db) => {
     WHERE maps.id = ${req.params.map_id}`
     db.query(queryString)
     .then(map => {
-        const map_id = map.rows[0].id; //replace with id from cookie
-        const map_name = map.rows[0].name;
-        const description = map.rows[0].description;
-        const img_url = map.rows[0].img_url;
-        const creator_name = map.rows[0].creator_name;
-        const id = 1;
-        const name = 'bob';
-        const templateVars = { id, name, map_id, map_name, description, img_url, creator_name };
-        return res.render("maps_show", templateVars);
+      const map_id = map.rows[0].id; //replace with id from cookie
+      const map_name = map.rows[0].name;
+      const description = map.rows[0].description;
+      const img_url = map.rows[0].img_url;
+      const creator_name = map.rows[0].creator_name;
+      const id = 1;
+      const name = 'bob';
+      const templateVars = { id, name, map_id, map_name, description, img_url, creator_name };
+      return res.render("maps_show", templateVars);
     })
     .catch(err => {
       res
         .status(500)
         .json({ error: err.message });
     });
-  //  res.send(`show the map ${req.params.map_id}`);
   })
 
   //POST delete map by ID
-  router.post("/:map_id", (req, res) => {
-    res.send(`delete the map ${req.params.map_id}`);
+  router.post("/:map_id/delete", (req, res) => {
+    let queryString = `
+    UPDATE maps
+    SET active = false
+    WHERE id = ${req.params.map_id}`
+    db.query(queryString)
+    console.log(queryString)
+    .then(map => {
+      return res.redirect("maps");
+    })
+  .catch(err => {
+    res
+      .status(500)
+      .json({ error: err.message });
+    });
   })
-
-  return router;
+return router;
 };
