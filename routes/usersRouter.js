@@ -14,7 +14,7 @@ module.exports = (db) => {
   //example route provided in skeleton
   router.get("/", (req, res) => {
     const queryString = `
-    SELECT * 
+    SELECT *
     FROM users` //query the DB for all the users
     db.query(queryString)
     .then(data => {
@@ -103,8 +103,20 @@ module.exports = (db) => {
     // set the cookie id to user_id like below:
     // req.session.userId = req.params.user_id
     // redirect home (profile?)
-    res.send(`u r now logged in as ${req.body.user_id}`)
-  })
+    const queryString = `
+    SELECT name
+    FROM users
+    WHERE id = $1
+    `;
+    db.query(queryString, [req.params.user_id])
+    .then((results) => {
+      req.session.userId = req.params.user_id; //set cookie userId
+      req.session.name = results.rows[0]; //set cookie name
+      console.log(req.session.name);
+      res.redirect("/maps/profile");
+    })
+    .catch(err=>res.send(err.message));
+  });
 
   router.post("/logout", (req, res) => {
     req.session = null;
