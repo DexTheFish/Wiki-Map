@@ -17,7 +17,7 @@
       <p>To view this content please first login.</p>
 
     <%} else { %>
-      <h3><%= name %>'s Profile</h3>
+      <h3><%= name.name %>'s Profile</h3>
 
         <div class="row py-5">
           <div class="col-sm-6">
@@ -57,7 +57,7 @@
               <tr>
                 <td><%= map.name%></td>
                 <td><%-map.description%></td>
-                <td><button type="button" class="btn btn-outline-primary"><a href="/maps/<%= map.id %>">View</a></button></td>
+                <td><button type="button" class="btn btn-outline-primary"><a href="/maps/<%- map.id %>">View</a></button></td>
                 <td><button type="button" class="btn btn-outline-primary"><a href="/maps/<%= map.id %>">Edit</a></button></td>
                 <td><form class="form-inline" method="POST" action="/maps/<%= map.id %>/delete"><button type="submit" class="btn btn-outline-danger">Delete</button></form></td>
               </tr>
@@ -65,7 +65,7 @@
           </tbody>
         </table>
         <% } else { %>
-          <h4>You have no Favourite Maps</h4>
+          <h4 id="favourites">You have no Favourite Maps</h4>
         <% } %>
         <hr>
         <% if (contributions) { %>
@@ -93,7 +93,7 @@
           </tbody>
         </table>
         <% } else { %>
-          <h4>You have no Contributions</h4>
+          <h4 id="contributions">You have no Contributions</h4>
         <% } %>
     <% } %>
   </main>

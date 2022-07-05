@@ -65,34 +65,60 @@ module.exports = (db) => {
     });
   })
 
+<<<<<<< HEAD
+=======
+  //GET new map form
+  router.get("/new", (req, res) => {
+    // if logged in
+    //    render page with form for new
+    if(req.session.userId) {
+      const templateVars = {
+        id: req.session.userId,
+        name: req.session.name
+      }
+      return res.render("maps_new", templateVars);
+    }
+    return res.redirect("/maps");
+  });
+>>>>>>> da80ebb8a7b122299f87302188d8a490caa9e509
 
   //GET subset of user's maps
   router.get("/profile", (req, res) => {
   // this is in /maps because the queries will look like SELECT * FROM maps
   // if logged in query faves, query contribution maps, all??
-    if(req.session.userId){
-    //need to add database query but first must update db schema
-    const templateVars = {
-      name: "bob",
-      id: 1,
-      faves: [{
-        id: 1,
-        name: "Abigails amazing attractions",
-        description: "these are all the amazing spots that I recommend. Hope to see you there!",
-        active: true,
-        creator_id: 1
-      }, {
-        "id": 1,
-        "name": "Abigails amazing attractions",
-        "description": "these are all the amazing spots that I recommend. Hope to see you there!",
-        "active": true,
-        "creator_id": 1
-      }],
-      contributions: null
-    };
+  const queryString = `
+  SELECT maps.name, maps.description, maps.id
+  FROM maps
+  JOIN favourite_maps on map_id = maps.id
+  WHERE user_id = $1 AND maps.active = TRUE
+  `;
+  const queryString2 = `
+  SELECT maps.name, maps.description, maps.id
+  FROM maps
+  JOIN points ON points.map_id = maps.id
+  JOIN contributions on  contributions.point_id = points.id
+  WHERE contributions.user_id = $1 AND maps.active = TRUE
+  `
+  let templateVars = {
+    id: req.session.userId,
+    name: req.session.name,
+  }
+
+  db.query(queryString, [req.session.userId])
+  .then((results) => {
+    templateVars["faves"] = results.rows;
+    console.log(templateVars.faves[0]);
+
+    return db.query(queryString2, [req.session.userId]);
+  })
+  .then((results) => {
+    templateVars.contributions = results.rows;
+
     return res.render("maps_profile", templateVars);
-    }
-    return res.redirect("/maps");
+  })
+  .catch((err) => {
+    console.log(err.message);
+  })
   });
 
   //GET map by ID
