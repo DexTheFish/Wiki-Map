@@ -19,7 +19,7 @@ module.exports = (db) => {
   //  next();
   // });
 
-  //GET a new point form
+  //GET new point form
   router.get("/new", (req, res) => {
     //  if logged in
     //    show form for create new point
@@ -33,7 +33,7 @@ module.exports = (db) => {
       email: "a@example.ca",
       password: "password"
       };
-    res.render("points_new", templateVars);
+    return res.render("points_new", templateVars);
   })
 
   //POST create a new point
@@ -83,7 +83,7 @@ module.exports = (db) => {
         "map_id": 1
       }
     };
-    res.render("points_point", templateVars);
+    return res.render("points_show", templateVars);
   });
 
 
@@ -104,7 +104,7 @@ module.exports = (db) => {
       const id = 1; //replace with id from cookie
       const name = 'bob';  // replace with name from cookie
       const templateVars = { id, name, point_id, point_name, description, img_url };
-      return res.render("points_show", templateVars);
+      return res.render("points_edit", templateVars);
     })
     .catch(err => {
       res
@@ -160,9 +160,6 @@ module.exports = (db) => {
         .json({ error: err.message });
     });
   });
-
-
-
 
   return router;
 };
