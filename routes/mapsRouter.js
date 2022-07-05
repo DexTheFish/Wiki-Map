@@ -52,8 +52,15 @@ module.exports = (db) => {
   router.get("/new", (req, res) => {
     // if logged in
     //    render page with form for new
-    res.send('display a form for creating a new map');
-  })
+    if(req.session.userId) {
+      const templateVars = {
+        id: req.session.userId,
+        name: "bob" //hardcoding name for now
+      }
+      return res.render("maps_new", templateVars);
+    }
+    return res.redirect("/maps");
+  });
 
   //GET subset of user's maps
   router.get("/profile", (req, res) => {
