@@ -15,21 +15,17 @@
     <!--HEADER ENDS-->
 
     <main style="margin: 1em;">
-      <h3>Create Account</h3>
-      <form method="POST" action="/users">
+      <h3>Create New Map</h3>
+      <form method="POST" action="/maps">
         <div class="form-group">
           <label for="inputName">Name</label>
           <input type="text" class="form-control" name="name" aria-describedby="usernameHelp" placeholder="Enter name">
         </div>
         <div class="form-group">
-          <label for="inputEmail">Email address</label>
-          <input type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Enter email">
+          <label for="inputDescription">Description</label>
+          <input type="text" class="form-control" name="description" aria-describedby="descriptionHelp" placeholder="Enter map description">
         </div>
-        <div class="form-group">
-          <label for="inputPassword">Password</label>
-          <input type="password" class="form-control" name="password" placeholder="Password">
-        </div>
-        <button type="submit" class="btn btn-primary">Register</button>
+        <button type="submit" class="btn btn-primary">Create</button>
       </form>
     </main>
 

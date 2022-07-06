@@ -26,17 +26,10 @@ module.exports = (db) => {
     // if logged out
     //  redirect home? login?
     // res.send("I am a new point form");
-    
-    console.log(req.query);
-    const map_id = req.query.map_id;
-    const lat = req.query.lat;
-    const long = req.query.long;
 
-    console.log(map_id, lat, long);
     const templateVars = { // fake user
       id: req.session.userId,
       name: req.session.name,
-
       };
     return res.render("points_new", templateVars);
   })

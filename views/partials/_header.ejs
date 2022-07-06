@@ -7,15 +7,15 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav justify-content-left">
         <% if (id) { %>
-          <a class="nav-item nav-link" href="/maps/profile/favourites">My Favourites</a>
-          <a class="nav-item nav-link" href="/maps/profile/contributions">My Contributions</a>
+          <a class="nav-item nav-link" href="/maps/profile/#favourites">My Favourites</a>
+          <a class="nav-item nav-link" href="/maps/profile/#contributions">My Contributions</a>
         <%}%>
       </div>
       <div class="navbar-nav d-sm-block d-md-none text-light">
         <% if (id) { %>
           <form action="/users/logout" method="POST">
             <div class="form-group mb-2">
-              <p class="text-light">Logged In As: <%= name %></label>
+              <p class="text-light">Logged In As: <%= name.name %></label>
               <button class="btn btn-outline-danger">Logout</button>
             </div>
           </form>
@@ -28,7 +28,7 @@
     </div>
     <div class="navbar-nav d-none d-md-block">
       <% if (id) { %>
-        <form action="/logout" method="POST">
+        <form action="/users/logout" method="POST">
           <div class="form-group mb-2">
             <button class="btn btn-outline-danger">Logout</button>
           </div>
