@@ -18,7 +18,7 @@ module.exports = (db) => {
     WHERE active = true`
     db.query(queryString)
     .then(data => {
-      const templateVars = { maps: data.rows, id: req.session.id, name: 'bob' };
+      const templateVars = { maps: data.rows, id: req.session.userId, name: req.session.name};
       return res.render("maps_index", templateVars);
     })
     .catch(err => {
@@ -26,20 +26,6 @@ module.exports = (db) => {
         .status(500)
         .json({ error: err.message });
     });
-  });
-
-  //GET new map form
-  router.get("/new", (req, res) => {
-    // if logged in
-    //    render page with form for new
-    if(req.session.userId) {
-      const templateVars = {
-        id: req.session.userId,
-        name: "bob" //hardcoding name for now
-      }
-      return res.render("maps_new", templateVars);
-    }
-    return res.redirect("/maps");
   });
 
   //GET new map form
@@ -61,16 +47,16 @@ module.exports = (db) => {
     //STRETCH: use cookies to adjust creator_id
     //STRETCH: use cookies to authorize map creation
     const [name, description] = [req.body.name, req.body.description];
-    const creator_id = 1; // use cookies to adjust
+    const creator_id = req.session.userId;
     const queryString = `
     INSERT INTO maps
     (name, description, creator_id)
     VALUES
-    ($1, $2, ${creator_id} )
+    ($1, $2, $3)
     RETURNING *`
-    db.query(queryString, [name, description])
+    db.query(queryString, [name, description, creator_id])
     .then(data => {
-      return res.redirect("/maps");
+      return res.redirect("/maps"); //maybe redirect to newly created map instead
     })
     .catch(err => {
       res
@@ -79,16 +65,32 @@ module.exports = (db) => {
     });
   })
 
+  //GET new map form
+  router.get("/new", (req, res) => {
+    // if logged in
+    //    render page with form for new
+    if(req.session.userId) {
+      const templateVars = {
+        id: req.session.userId,
+        name: req.session.name
+      }
+      return res.render("maps_new", templateVars);
+    }
+    return res.redirect("/maps");
+  });
+
   //GET subset of user's maps
   router.get("/profile", (req, res) => {
   // this is in /maps because the queries will look like SELECT * FROM maps
   // if logged in query faves, query contribution maps, all??
+  //query for favourites
   const queryString = `
-  SELECT maps.name, maps.description, maps.id
+  SELECT DISTINCT ON(maps.name) maps.name, maps.description, maps.id, favourite_maps.id as fav_id
   FROM maps
   JOIN favourite_maps on map_id = maps.id
   WHERE user_id = $1 AND maps.active = TRUE
   `;
+  //query for contributions
   const queryString2 = `
   SELECT maps.name, maps.description, maps.id
   FROM maps
@@ -124,12 +126,12 @@ module.exports = (db) => {
     SELECT maps.*, users.name as creator_name
     FROM maps
     JOIN users ON maps.creator_id = users.id
-    WHERE maps.id = ${req.params.map_id}`
-    db.query(queryString)
+    WHERE maps.id = $1`
+    db.query(queryString, [req.params.map_id])
     .then(map => {
       const [map_id, map_name, description, creator_name] = [map.rows[0].id, map.rows[0].name,map.rows[0].description, map.rows[0].creator_name];
-      const id = 1; //temp for template vars
-      const name = 'bob'; //temp for template vars
+      const id = req.session.userId;
+      const name = req.session.name;
       const templateVars = { id, name, map_id, map_name, description, creator_name };
       return res.render("maps_show", templateVars);
     })
@@ -150,8 +152,8 @@ module.exports = (db) => {
     db.query(queryString)
     .then(map => {
       const [map_id, map_name, description, creator_name] = [map.rows[0].id, map.rows[0].name,map.rows[0].description, map.rows[0].creator_name];
-      const id = 1; //temp for template vars
-      const name = 'bob'; //temp for template vars
+      const id = req.session.userId;
+      const name = req.session.name;
       const templateVars = { id, name, map_id, map_name, description, creator_name };
       return res.render("maps_edit", templateVars);
     })
@@ -162,7 +164,7 @@ module.exports = (db) => {
     });
   });
 
-  //POST edit map by id
+  //POST edit by id
   router.post("/:map_id/edit", (req, res) => {
     const [name, description] = [req.body.name, req.body.description];
     const map_id = req.params.map_id;
@@ -173,7 +175,7 @@ module.exports = (db) => {
     WHERE id = ${map_id}`
     db.query(queryString, [name, description])
     .then(data => {
-      return res.redirect(`/maps/${req.params.map_id}`);
+      res.redirect(`/maps/${req.params.map_id}`);
     })
     .catch(err => {
       res
@@ -191,7 +193,6 @@ module.exports = (db) => {
     WHERE id = ${map_id}`
     db.query(queryString)
     .then(map => {
-      console.log(queryString)
       return res.redirect("/maps");
     })
   .catch(err => {
@@ -201,21 +202,46 @@ module.exports = (db) => {
     });
   });
 
-  //POST add favourite map
+  //POST add favourite map by ID
   router.post("/:map_id/favs", (req, res) => {
-    //query to add to favourites table
-    res.redirect('back');
-  })
+    const map_id = req.params.map_id;
+    const queryString = `
+    INSERT INTO favourite_maps
+    (user_id, map_id)
+    VALUES ( ${req.session.userId}, ${map_id})`
+    db.query(queryString)
+    .then(map => {
+      console.log(map.rows)
+      return res.redirect(`/maps/profile`);
+    })
+  .catch(err => {
+    console.log(err)
+    res
+      .status(500)
+      .json({ error: err.message });
+    });
+  });
 
-  //POST edit by id
-  router.post("/:map_id/edit", (req, res) => {
-    //query to change the map's name, description, ...
-    res.redirect(`/maps/${req.params.map_id}`);
-  })
-
-  //POST add a map to user's favourites
 
   //POST remove a map from user's favourites
+  router.post("/:fav_id/delete", (req, res) => {
+    const fav_id = req.params.fav_id;
+    const queryString = `
+    DELETE FROM favourite_maps
+    WHERE favourite_maps.id = ${fav_id}`
+    db.query(queryString)
+    .then(map => {
+      console.log(map.rows)
+      return res.redirect(`/maps/profile`);
+    })
+  .catch(err => {
+    console.log(err)
+    res
+      .status(500)
+      .json({ error: err.message });
+    });
+  });
+  //favourite.id passed in as req.params.fav_id
 
 return router;
 };
