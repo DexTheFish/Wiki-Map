@@ -27,8 +27,6 @@ module.exports = (db) => {
     //  redirect home? login?
     // res.send("I am a new point form");
 
-    console.log(req.query.lat);
-
     const templateVars = { // fake user
       id: req.session.userId,
       name: req.session.name,
@@ -56,16 +54,14 @@ module.exports = (db) => {
     VALUES
     ( $1, $2, $3, ${longitude}, ${latitude}, ${map_id} )
     RETURNING *`
-    console.log(img_url);
+
     db.query(queryString, [name, description, img_url])
     .then(data => {
       // redirect home? login?
       return res.redirect(`/maps/${map_id}`);
     })
     .catch(err => {
-      res
-        .status(500)
-        .json({ error: err.message });
+    return res.status(500).json({ error: err.message });
     });
   });
 
@@ -73,20 +69,19 @@ module.exports = (db) => {
   router.get("/:point_id", (req, res) => {
     // query db with point_id
     // render details about point
+    const point_id = req.params.point_id;
     const queryString = `
     SELECT *
     FROM points
-    WHERE id = $1
-    `;
+    WHERE id = $1`
 
-    db.query(queryString,[req.params.point_id])
+    db.query(queryString,[point_id])
     .then((results) => {
       const templateVars = {
         id: req.session.userId,
         name: req.session.name,
         point: results.rows[0]
       }
-      console.log(results.rows);
       return res.render("points_show", templateVars);
     })
     .catch((err) => {
@@ -100,24 +95,23 @@ module.exports = (db) => {
     // use point_id to query for name, description, img_url
     // put them into templateVars
     const point_id = req.params.point_id;
-    const queryString = (`
-    SELECT name, description, img_url
+    const queryString = `
+    SELECT *
     FROM points
-    WHERE id = ${point_id};`)
+    WHERE id = ${point_id}`
+
     db.query(queryString)
-    .then(data => {
-      const point_name = data.rows[0].name;
-      const description = data.rows[0].description;
-      const img_url = data.rows[0].img_url;
-      const id = req.session.userId; //replace with id from cookie
-      const name = req.session.name;  // replace with name from cookie
-      const templateVars = { id, name, point_id, point_name, description, img_url };
+    .then(results => {
+      console.log(results.rows);
+      const templateVars = {
+        id: req.session.userId,
+        name: req.session.name,
+        point: results.rows[0]
+      }
       return res.render("points_edit", templateVars);
     })
     .catch(err => {
-      res
-        .status(500)
-        .json({ error: err.message });
+      return res.status(500).json({ error: err.message });
     });
   });
 
@@ -137,9 +131,7 @@ module.exports = (db) => {
       return res.redirect("back");
     })
     .catch(err => {
-      res
-        .status(500)
-        .json({ error: err.message });
+      return res.status(500).json({ error: err.message });
     });
   });
 
@@ -163,9 +155,7 @@ module.exports = (db) => {
       return res.redirect("back");
     })
     .catch(err => {
-      res
-        .status(500)
-        .json({ error: err.message });
+      return res.status(500).json({ error: err.message });
     });
   });
 
