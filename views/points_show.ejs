@@ -42,7 +42,7 @@
     const lat = parseFloat(document.getElementById('lat').innerHTML);
     const long = parseFloat(document.getElementById('long').innerHTML);
 
-    var map = L.map('point_map').setView([lat, long], 17); // [lat, long],
+    var map = L.map('point_map').setView([lat, long], 17); // [lat, long], zoom
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 25,
       attribution: '© OpenStreetMap'
