@@ -12,12 +12,21 @@ const router  = express.Router();
 module.exports = (db) => {
 
   //check for login in router, only need to be done once
+<<<<<<< Updated upstream
   // router.use((req, res, next) => {
   //   if (!req.cookies.user_id) {
   //     return res.redirect('/login');
   //   }
   //  next();
   // });
+=======
+  router.use((req, res, next) => {
+    if (!req.session.userId) {
+      return res.redirect('/users/login');
+    }
+   next();
+  });
+>>>>>>> Stashed changes
 
   //GET new point form
   router.get("/new", (req, res) => {
