@@ -55,8 +55,9 @@ module.exports = (db) => {
     ($1, $2, $3)
     RETURNING *`
     db.query(queryString, [name, description, creator_id])
-      .then(data => {
-        return res.redirect("/maps"); //maybe redirect to newly created map instead
+      .then(map => {
+        map_id = map.rows[0].id;
+        return res.redirect(`/maps/${map_id}`);
       })
       .catch(err => {
         res
