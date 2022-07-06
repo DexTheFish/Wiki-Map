@@ -54,7 +54,7 @@ module.exports = (db) => {
     db.query(queryString, [name, description, img_url])
     .then(data => {
       // redirect home? login?
-      return res.redirect(`/maps/:${map_id}`);
+      return res.redirect(`/maps/${map_id}`);
     })
     .catch(err => {
       res
