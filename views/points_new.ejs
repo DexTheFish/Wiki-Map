@@ -16,7 +16,7 @@
 
     <main class="border rounded mx-5 my-5 px-2 py-2" >
       <h3>Create a new point</h3>
-      <form action="" method="post" id="" class="new-point">
+      <form action="/new" method="post" id="" class="new-point">
 
         <div class="form-group">
           <label for="new-point-title">Title</label>
@@ -36,7 +36,11 @@
          <div class="form-group">
               <button class="btn btn-primary">Create</button>
               <a class="text-danger" id="new-point-form-cancel" href="#">Cancel</a>
-          </div>
+        </div>
+
+        <input class="form-control d-none" type="text" name="lat" id="lat" value="<%=lat%>">
+        <input class="form-control d-none" type="text" name="long" id="long" value="<%=long%>">
+        <input class="form-control d-none" type="text" name="map_id" id="map_id" value="<%=map_id%>">
 
       </form>
     </main>

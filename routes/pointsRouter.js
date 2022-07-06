@@ -27,9 +27,14 @@ module.exports = (db) => {
     //  redirect home? login?
     // res.send("I am a new point form");
 
+    console.log(req.query.lat);
+
     const templateVars = { // fake user
       id: req.session.userId,
       name: req.session.name,
+      lat: req.query.lat,
+      long: req.query.long,
+      map_id: req.query.map_id
       };
     return res.render("points_new", templateVars);
   })
@@ -41,9 +46,9 @@ module.exports = (db) => {
     //  save to db (later)
     //if logged out
     // redirect home? login?
-    const latitude = 0;
-    const longitude = 0;
-    const map_id = 1;
+    const latitude = req.body.lat;
+    const longitude = req.body.long;
+    const map_id = req.body.map_id;
     const [name, description, img_url] = [req.body.name, req.body.description, req.body.img_url];
     const queryString = `
     INSERT INTO points
