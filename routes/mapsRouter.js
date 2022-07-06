@@ -126,13 +126,36 @@ module.exports = (db) => {
     SELECT maps.*, users.name as creator_name
     FROM maps
     JOIN users ON maps.creator_id = users.id
-    WHERE maps.id = $1`
+    WHERE maps.id = $1
+    `;
+    const queryString2 = `
+    SELECT *
+    FROM points
+    WHERE map_id = $1
+    `;
+    const templateVars = {}
+    const id = req.session.userId;
+    const name = req.session.name;
     db.query(queryString, [req.params.map_id])
       .then(map => {
+        // add map data to templateVars
         const [map_id, map_name, description, creator_name] = [map.rows[0].id, map.rows[0].name, map.rows[0].description, map.rows[0].creator_name];
-        const id = req.session.userId;
-        const name = req.session.name;
-        const templateVars = { id, name, map_id, map_name, description, creator_name };
+        templateVars.id = id;
+        templateVars.name = name;
+        templateVars.map_id = map_id;
+        templateVars.map_name = map_name;
+        templateVars.description = description;
+        templateVars.creator_name = creator_name;
+        templateVars.map = map.rows[0];
+        return db.query(queryString2, [req.params.map_id])
+      })
+      .then((points) => {
+        //const [map_id, map_name, description, creator_name] = [map.rows[0].id, map.rows[0].name,map.rows[0].description, map.rows[0].creator_name];
+        //const templateVars = { id, name, map_id, map_name, description, creator_name };
+
+        templateVars.points = points.rows;
+        console.log(templateVars);
+
         return res.render("maps_show", templateVars);
       })
       .catch(err => {
