@@ -128,7 +128,7 @@ module.exports = (db) => {
     WHERE id = ${point_id}`
     db.query(queryString, [name, description, img_url])
     .then(data => {
-      return res.redirect("back");
+      return res.redirect(`/points/${point_id}`);
     })
     .catch(err => {
       return res.status(500).json({ error: err.message });
