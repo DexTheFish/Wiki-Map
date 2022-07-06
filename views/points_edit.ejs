@@ -1,7 +1,11 @@
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- App CSS -->
+    <style>form { display: inline; }</style>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
@@ -15,26 +19,21 @@
     <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
     integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
     crossorigin=""></script>
-  </head>
 
-    <title>Rosette</title>
+    <title>Rosette - Edit a Point</title>    
   </head>
 
   <body>
-    <!--HEADER BEGINS-->
-    <%- include('partials/_header') %>
-    <!--HEADER ENDS-->
 
-    <main class="container border border-secondary rounded my-5">
-      <h3>Edit or Delete Point: <%= point.name %> </h3>
+    <%- include('partials/_header') %>
+
+    <main class="border rounded mx-3 my-3 px-2 py-2" >
+
+      <h5>Edit or Delete Point: <%= point.name %> </h5>
 
       <div id="point_map" style="height: 30em; width: 100%">
         <script>
-          // const lat = parseFloat(document.getElementById('lat').innerHTML);
-          // const long = parseFloat(document.getElementById('long').innerHTML);
-
           var point = <%- JSON.stringify(point) %>;
-
           const lat = point.latitude;
           const long = point.longitude;
       
@@ -67,10 +66,9 @@
         <button type="submit" class="btn btn-primary">Edit</button>
       </form>
 
-      <form method="POST" action="/points/<%= point.id %>/delete">
+      <form id="test" method="POST" action="/points/<%= point.id %>/delete">
           <button type="submit" class="btn btn-danger">Delete</button>
       </form>
-
 
     </main>
 
