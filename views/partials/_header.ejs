@@ -15,7 +15,7 @@
         <% if (id) { %>
           <form action="/users/logout" method="POST">
             <div class="form-group mb-2">
-              <p class="text-light">Logged In As: <%= name %></label>
+              <p class="text-light">Logged In As: <%= name.name %></label>
               <button class="btn btn-outline-danger">Logout</button>
             </div>
           </form>

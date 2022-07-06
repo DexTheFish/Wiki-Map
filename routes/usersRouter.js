@@ -11,6 +11,12 @@ const router  = express.Router();
 const bcrypt = require('bcrypt');
 
 module.exports = (db) => {
+
+  let templateVars = {
+    id: null,
+    name: null
+  };
+
   //example route provided in skeleton
   router.get("/", (req, res) => {
     const queryString = `
@@ -38,6 +44,7 @@ module.exports = (db) => {
     INSERT INTO users (name, email, password)
     VALUES ($1, $2, $3)
     RETURNING *`
+
     db.query(queryString, [user.name, user.email, user.password])
     .then((results) => {
       if(!results) {
@@ -46,6 +53,10 @@ module.exports = (db) => {
       }
       console.log(results.rows[0]);
       req.session.userId = results.rows[0].id;
+      req.session.name = results.rows[0].name;
+
+      templateVars.id = req.session.userId;
+      templateVars.name = req.session.name;
       res.redirect("/maps");
     })
     .catch((err) => {
@@ -68,17 +79,15 @@ module.exports = (db) => {
       console.log(req.session.userId);
       return res.redirect("/maps");
     }
-    const templateVars = { // fake user
-      id: null,
-      name: null,
-      email: null,
-      password: null
-      };
+
     res.render("users_register", templateVars);
   });
 
   router.get("/login", (req, res) => {
-    const templateVars = {id: null, name: null};
+    console.log(templateVars);
+    if(req.session.userId){
+      return res.redirect("/maps");
+    }
     res.render("users_login.ejs", templateVars);
   });
 
@@ -112,6 +121,10 @@ module.exports = (db) => {
     .then((results) => {
       req.session.userId = req.params.user_id; //set cookie userId
       req.session.name = results.rows[0]; //set cookie name
+      //update templateVars
+      templateVars.id = req.session.userId;
+      templateVars.name = req.session.name;
+
       console.log(req.session.name);
       res.redirect("/maps/profile");
     })
@@ -120,7 +133,9 @@ module.exports = (db) => {
 
   router.post("/logout", (req, res) => {
     req.session = null;
-    res.redirect("/users/register"); // CHANGE TO LOGIN once the login endpoints are connected to users_login.ejs
+    templateVars.id = null;
+    templateVars.name = null;
+    res.redirect("/maps");
   });
 
   return router;

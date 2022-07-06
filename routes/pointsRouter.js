@@ -28,10 +28,8 @@ module.exports = (db) => {
     // res.send("I am a new point form");
 
     const templateVars = { // fake user
-      id: 1,
-      name: "Abi",
-      email: "a@example.ca",
-      password: "password"
+      id: req.session.userId,
+      name: req.session.name,
       };
     return res.render("points_new", templateVars);
   })
@@ -48,16 +46,16 @@ module.exports = (db) => {
     const map_id = 1;
     const [name, description, img_url] = [req.body.name, req.body.description, req.body.img_url];
     const queryString = `
-    INSERT INTO points 
+    INSERT INTO points
     (name, description, img_url, longitude, latitude, map_id)
-    VALUES 
-    ( $1, $2, $3, ${longitude}, ${latitude}, ${map_id} ) 
+    VALUES
+    ( $1, $2, $3, ${longitude}, ${latitude}, ${map_id} )
     RETURNING *`
     console.log(img_url);
     db.query(queryString, [name, description, img_url])
     .then(data => {
       // redirect home? login?
-      return res.redirect(`/maps/:${map_id}`);
+      return res.redirect(`/maps/${map_id}`);
     })
     .catch(err => {
       res
@@ -72,7 +70,7 @@ module.exports = (db) => {
     // render details about point
     const templateVars = {
       id: req.session.userId,
-      name: 'bob',
+      name: req.session.name,
       point: {
         "id": 1,
         "name": "Epic Location 1",
@@ -102,8 +100,8 @@ module.exports = (db) => {
       const point_name = data.rows[0].name;
       const description = data.rows[0].description;
       const img_url = data.rows[0].img_url;
-      const id = 1; //replace with id from cookie
-      const name = 'bob';  // replace with name from cookie
+      const id = req.session.userId; //replace with id from cookie
+      const name = req.session.name;  // replace with name from cookie
       const templateVars = { id, name, point_id, point_name, description, img_url };
       return res.render("points_edit", templateVars);
     })
@@ -161,6 +159,7 @@ module.exports = (db) => {
         .json({ error: err.message });
     });
   });
+
 
   return router;
 };
