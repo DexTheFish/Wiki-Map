@@ -3,44 +3,46 @@
 <head>
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-  <!-- Leaflet CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
-  integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
-  crossorigin=""/>
-  <!-- Leaflet JS -->
-  <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
-  integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
-  crossorigin=""></script>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+    integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+    crossorigin=""/>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+    integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+    crossorigin=""></script>
 
   <title>Map</title>
 </head>
 
 <body>
-    <!--HEADER BEGINS-->
-    <%- include('partials/_header') %>
-    <!--HEADER ENDS-->
+  <!--HEADER BEGINS-->
+  <%- include('partials/_header') %>
+  <!--HEADER ENDS-->
 
-    <main class="card" style="margin: 5%;">
-      <div id="map" style="height: 30em; width: 100%" class=""></div>
-      <div class="card-body">
-          <h5 class="card-title"><%= map_name %></h5>
-          <p class="card-text"><%= description %></p>
-          <p class="card-text">Map created by: <%= creator_name %></p>
-          <a href="/maps" class="btn btn-primary">Return to Maps</a>
-          <a href="/maps/<%= map_id %>/edit" class="btn btn-primary">Edit</a>
-          <form input style="display: inline;" method="POST" action="/maps/<%= map_id %>/favs">
-            <button type="submit" class="btn btn-primary">Add Map to Favourites</button>
-          </form>
+  <main style="margin: 1em;">
+    <h3>Edit or Delete Map: <%=map.name%> </h3>
+    <div id="map" class="my-5 " style="height: 360px; width: 100%">
+    </div>
+
+    <p>Map by: <%= map.creator_name  %></p>
+    <form method="POST" action="/maps/<%= map.id %>/edit">
+      <div class="form-group">
+        <label for="inputName">Change map name</label>
+        <input class="form-control" name="name" aria-describedby="emailHelp" value="<%= map.name %>">
       </div>
-      <!-- list the points on the map -->
-      <section class="card-body">
-        <% for (const point of points) {%>
-          <a href="/points/<%=point.id%>"><%=point.name%></a>
-          <%}%>
-      </section>
-    </main>
+      <div class="form-group">
+        <label for="inputDescription">Change map description</label>
+        <input class="form-control" name="description" value="<%= map.description %>">
+      </div>
+      <button type="submit" class="btn btn-primary">Edit</button>
+    </form>
+    <form method="POST" action="/maps/<%= map.id %>/delete">
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+  </main>
 
-   <!-- Bootstrap JS -->
+  <!-- Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
@@ -60,7 +62,7 @@
 
 
       for(const i in points) {
-        eval("marker_"+ i +" = L.marker(["+points[i].latitude+","+points[i].longitude+"]).addTo(map)");
+        eval("marker_" + i + " = L.marker([" + points[i].latitude+ ","+points[i].longitude+"]).addTo(map)");
         eval("marker_" + i + ".bindPopup('<p>" + points[i].name + "</p>').openPopup()");
       }
     } else {

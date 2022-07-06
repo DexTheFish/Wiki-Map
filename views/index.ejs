@@ -21,7 +21,54 @@
 </head>
 
 <body>
-  <h1>This is the home page! 🥔</h1>
+  <h1>🥔 Rosette 🥔</h1>
+  <h3>maps</h3>
+  <div>
+    <form method="GET" action="/maps/">
+      <button type="submit" class="btn btn-primary">View All Maps</button>
+    </form>
+  </div>
+  <div>
+    <form method="GET" action="/maps/profile">
+      <button type="submit" class="btn btn-primary">View Favourite Maps</button>
+    </form>
+  </div>
+  <div>
+    <form method="GET" action="/maps/new">
+      <button type="submit" class="btn btn-primary">Create a New Map</button>
+    </form>
+  </div>
+  <div>
+    <form method="GET" action="/maps/1">
+      <button type="submit" class="btn btn-primary">View Map 1</button>
+    </form>
+  </div>
+  <h3>points</h3>
+  <div>
+    <form method="GET" action="/points/new">
+      <button type="submit" class="btn btn-primary">Create a New Point</button>
+    </form>
+  </div>
+  <div>
+    <form method="GET" action="/points/1">
+      <button type="submit" class="btn btn-primary">View Point 1</button>
+    </form>
+  </div>
+  <div>
+    <form method="GET" action="/points/1/edit">
+      <button type="submit" class="btn btn-primary">Edit Point 1</button>
+    </form>
+  </div>
+  <h3>users</h3>
+  <div>
+    <form method="GET" action="/users/register">
+      <button type="submit" class="btn btn-primary">User Register</button>
+    </form>
+  </div>
+  <div>
+    <form method="GET" action="/users/login">
+      <button type="submit" class="btn btn-primary">User Login</button>
+    </form>
+  </div>
 </body>
-
 </html>

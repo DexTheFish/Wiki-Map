@@ -11,10 +11,19 @@ const router  = express.Router();
 const bcrypt = require('bcrypt');
 
 module.exports = (db) => {
+
+  let templateVars = {
+    id: null,
+    name: null
+  };
+
   //example route provided in skeleton
   router.get("/", (req, res) => {
-    db.query(`SELECT * FROM users;`) //query the DB for all the users
-      .then(data => {
+    const queryString = `
+    SELECT *
+    FROM users` //query the DB for all the users
+    db.query(queryString)
+    .then(data => {
         const users = data.rows;
         res.json({ users }); // send all the users to the browser as a JSON object
       })
@@ -31,12 +40,12 @@ module.exports = (db) => {
     user.password = bcrypt.hashSync(user.password, 12);
     console.log(user);
 
-    const queryText = `
+    const queryString = `
     INSERT INTO users (name, email, password)
     VALUES ($1, $2, $3)
-    RETURNING *
-    `;
-    db.query(queryText, [user.name, user.email, user.password])
+    RETURNING *`
+
+    db.query(queryString, [user.name, user.email, user.password])
     .then((results) => {
       if(!results) {
         res.send({error: "error adding user"});
@@ -44,6 +53,10 @@ module.exports = (db) => {
       }
       console.log(results.rows[0]);
       req.session.userId = results.rows[0].id;
+      req.session.name = results.rows[0].name;
+
+      templateVars.id = req.session.userId;
+      templateVars.name = req.session.name;
       res.redirect("/maps");
     })
     .catch((err) => {
@@ -66,33 +79,21 @@ module.exports = (db) => {
       console.log(req.session.userId);
       return res.redirect("/maps");
     }
-    const templateVars = { // fake user
-      id: null,
-      name: null,
-      email: null,
-      password: null
-      };
+
     res.render("users_register", templateVars);
   });
 
   router.get("/login", (req, res) => {
-    // if logged in:
-    //   redirect home
-    // if not logged in:
-    //   render the login form
-    res.send("Login Page");
+    console.log(templateVars);
+    if(req.session.userId){
+      return res.redirect("/maps");
+    }
+    res.render("users_login.ejs", templateVars);
   });
 
   router.post("/login", (req, res) => {
-    // STRETCH: User Authentication
-    // use the req.body to query the db
-    // if a user matches the info:
-    //   set cookie <-> id
-    //   redirect home
-    // if no match:
-    //   redirect to login
-    //   error handling - client side, worry later
-    res.send("You have successfully logged in!");
+    // placeholder
+    res.redirect("/users/login/1");
   });
 
   router.get("/login/:user_id", (req, res) => {
@@ -100,12 +101,30 @@ module.exports = (db) => {
     // set the cookie id to user_id like below:
     // req.session.userId = req.params.user_id
     // redirect home (profile?)
-    res.send(`u r now logged in as ${req.body.user_id}`)
-  })
+    const queryString = `
+    SELECT name
+    FROM users
+    WHERE id = $1
+    `;
+    db.query(queryString, [req.params.user_id])
+    .then((results) => {
+      req.session.userId = req.params.user_id; //set cookie userId
+      req.session.name = results.rows[0]; //set cookie name
+      //update templateVars
+      templateVars.id = req.session.userId;
+      templateVars.name = req.session.name;
+
+      console.log(req.session.name);
+      res.redirect("/maps/profile");
+    })
+    .catch(err=>res.send(err.message));
+  });
 
   router.post("/logout", (req, res) => {
     req.session = null;
-    res.redirect("/users/register"); // CHANGE TO LOGIN once the login endpoints are connected to users_login.ejs
+    templateVars.id = null;
+    templateVars.name = null;
+    res.redirect("/maps");
   });
 
   return router;

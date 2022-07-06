@@ -17,7 +17,7 @@
       <p>To view this content please first login.</p>
 
     <%} else { %>
-      <h3><%= name %>'s Profile</h3>
+      <h3><%= name.name %>'s Profile</h3>
 
         <div class="row py-5">
           <div class="col-sm-6">
@@ -41,15 +41,13 @@
         </div>
 
         <% if (faves) { %>
-          <h4 id="favourites">My Fave Map's</h4>
+          <h4 id="favourites">My Fave Maps</h4>
         <table class="table table-bordered table-hover">
           <thead class="thead-light">
             <tr>
               <th scope="col">Map Name</th>
               <th scope="col">Description</th>
-              <th scope="col">View</th>
-              <th scope="col">Edit</th>
-              <th scope="col">Delete</th>
+              <th scope="col">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -57,27 +55,27 @@
               <tr>
                 <td><%= map.name%></td>
                 <td><%-map.description%></td>
-                <td><button type="button" class="btn btn-outline-primary"><a href="/maps/<%= map.id %>">View</a></button></td>
-                <td><button type="button" class="btn btn-outline-primary"><a href="/maps/<%= map.id %>">Edit</a></button></td>
-                <td><form class="form-inline" method="POST" action="/maps/<%= map.id %>/delete"><button type="submit" class="btn btn-outline-danger">Delete</button></form></td>
+                <td>
+                  <button type="button" class="btn btn-outline-primary d-block" data-toggle="tooltip" data-placement="left" title="View Map Details"><a href="/maps/<%- map.id %>">View</a></button>
+                  <button type="button" class="btn btn-outline-primary d-block" data-toggle="tooltip" data-placement="left" title="Edit Map Details"><a href="/maps/<%= map.id %>/edit">Edit</a></button>
+                  <form class="form-inline" method="POST" action="/maps/<%= map.fav_id %>/delete"><button type="submit" class="btn btn-outline-danger" data-toggle="tooltip" data-placement="left" title="Remove Map From Favourites">Remove</button></form>
+                </td>
               </tr>
             <% } %>
           </tbody>
         </table>
         <% } else { %>
-          <h4>You have no Favourite Maps</h4>
+          <h4 id="favourites">You have no Favourite Maps</h4>
         <% } %>
         <hr>
         <% if (contributions) { %>
-          <h4 id="contributions">Map's I've Contributed To</h4>
+          <h4 id="contributions">Maps I've Contributed To</h4>
         <table class="table table-bordered table-hover">
           <thead class="thead-light">
             <tr>
               <th scope="col">Map Name</th>
               <th scope="col">Description</th>
-              <th scope="col">View</th>
-              <th scope="col">Edit</th>
-              <th scope="col">Delete</th>
+              <th scope="col">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -85,15 +83,16 @@
               <tr>
                 <td><%= map.name%></td>
                 <td><%-map.description%></td>
-                <td><button type="button" class="btn btn-outline-primary"><a href="/maps/<%= map.id %>">View</a></button></td>
-                <td><button type="button" class="btn btn-outline-primary"><a href="/maps/<%= map.id %>">Edit</a></button></td>
-                <td><form class="form-inline" method="POST" action="/maps/<%= map.id %>/delete"><button type="submit" class="btn btn-outline-danger">Delete</button></form></td>
+                <td>
+                  <button type="button" class="btn btn-outline-primary d-block" data-toggle="tooltip" data-placement="left" title="View Map Details"><a href="/maps/<%- map.id %>">View</a></button>
+                  <button type="button" class="btn btn-outline-primary d-block" data-toggle="tooltip" data-placement="left" title="Edit Map Details"><a href="/maps/<%= map.id %>/edit">Edit</a></button>
+                </td>
               </tr>
             <% } %>
           </tbody>
         </table>
         <% } else { %>
-          <h4>You have no Contributions</h4>
+          <h4 id="contributions">You have no Contributions</h4>
         <% } %>
     <% } %>
   </main>
@@ -101,5 +100,11 @@
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script>
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  })
+
+  </script>
 </body>
 </html>

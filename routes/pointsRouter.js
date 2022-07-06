@@ -13,13 +13,13 @@ module.exports = (db) => {
 
   //check for login in router, only need to be done once
   // router.use((req, res, next) => {
-  //   if (!req.cookies.user_id) {
+  //   if (!req.cookies.userId) {
   //     return res.redirect('/login');
   //   }
   //  next();
   // });
 
-  //GET a new point form
+  //GET new point form
   router.get("/new", (req, res) => {
     //  if logged in
     //    show form for create new point
@@ -28,93 +28,114 @@ module.exports = (db) => {
     // res.send("I am a new point form");
 
     const templateVars = { // fake user
-      id: 1,
-      name: "Abi",
-      email: "a@example.ca",
-      password: "password"
+      id: req.session.userId,
+      name: req.session.name,
+      lat: req.query.lat,
+      long: req.query.long,
+      map_id: req.query.map_id
       };
-    res.render("points_new", templateVars);
+    return res.render("points_new", templateVars);
   })
 
-  //POST a new point
+  //POST create a new point
   router.post("/new", (req, res) => {
     //if logged in
     //  create point object
     //  save to db (later)
     //if logged out
     // redirect home? login?
-    const latitude = 0;
-    const longitude = 0;
-    const map_id = 1;
+    const latitude = req.body.lat;
+    const longitude = req.body.long;
+    const map_id = req.body.map_id;
     const [name, description, img_url] = [req.body.name, req.body.description, req.body.img_url];
-    let queryString = `
-    INSERT INTO points 
+    const queryString = `
+    INSERT INTO points
     (name, description, img_url, longitude, latitude, map_id)
-    VALUES 
-    ( $1, $2, $3, ${longitude}, ${latitude}, ${map_id} ) 
+    VALUES
+    ( $1, $2, $3, ${longitude}, ${latitude}, ${map_id} )
     RETURNING *`
+
     db.query(queryString, [name, description, img_url])
     .then(data => {
       // redirect home? login?
-      res.send(`Point added to map!`);
+      return res.redirect(`/maps/${map_id}`);
     })
     .catch(err => {
-      res
-        .status(500)
-        .json({ error: err.message });
+    return res.status(500).json({ error: err.message });
     });
   });
 
-  //GET point edit form
+  //GET point by ID
+  router.get("/:point_id", (req, res) => {
+    // query db with point_id
+    // render details about point
+    const point_id = req.params.point_id;
+    const queryString = `
+    SELECT *
+    FROM points
+    WHERE id = $1`
+
+    db.query(queryString,[point_id])
+    .then((results) => {
+      const templateVars = {
+        id: req.session.userId,
+        name: req.session.name,
+        point: results.rows[0]
+      }
+      return res.render("points_show", templateVars);
+    })
+    .catch((err) => {
+      return res.status(500).json({error: err.message});
+    })
+  });
+
+
+  //GET point edit form by ID
   router.get("/:point_id/edit", (req, res) => {
     // use point_id to query for name, description, img_url
     // put them into templateVars
     const point_id = req.params.point_id;
-    let queryString = (`
-    SELECT name, description, img_url
+    const queryString = `
+    SELECT *
     FROM points
-    WHERE id = ${point_id};`)
+    WHERE id = ${point_id}`
+
     db.query(queryString)
-    .then(data => {
-      const point_name = data.rows[0].name;
-      const description = data.rows[0].description;
-      const img_url = data.rows[0].img_url;
-      const id = 1; //replace with id from cookie
-      const name = 'bob';  // replace with name from cookie
-      const templateVars = { id, name, point_id, point_name, description, img_url };
-      return res.render("points_show", templateVars);
+    .then(results => {
+      console.log(results.rows);
+      const templateVars = {
+        id: req.session.userId,
+        name: req.session.name,
+        point: results.rows[0]
+      }
+      return res.render("points_edit", templateVars);
     })
     .catch(err => {
-      res
-        .status(500)
-        .json({ error: err.message });
+      return res.status(500).json({ error: err.message });
     });
   });
 
-  //POST point edit form
+  //POST edit point by ID
   router.post("/:point_id/edit", (req, res) => {
     // STRETCH: require authorization by checking user cookie
     const [name, description, img_url] = [req.body.name, req.body.description, req.body.img_url];
     const point_id = req.params.point_id;
-    let queryString = (`
+    let queryString = `
     UPDATE points
     SET name = $1,
     description = $2,
     img_url = $3
-    WHERE id = ${point_id}`)
+    WHERE id = ${point_id}`
     db.query(queryString, [name, description, img_url])
     .then(data => {
-      // redirect home? login?
       return res.redirect("back");
     })
     .catch(err => {
-      res
-        .status(500)
-        .json({ error: err.message });
+      return res.status(500).json({ error: err.message });
     });
   });
 
-  //DELETE an existing point
+  //POST delete point by ID
   router.post("/:point_id/delete", (req, res) => {
     // if logged in:
     //  SELECT point from db
@@ -124,7 +145,7 @@ module.exports = (db) => {
     //  complain
     //  redirect to home? login?
     const point_id = req.params.point_id;
-    let queryString = `
+    const queryString = `
     UPDATE points
     SET active = false
     WHERE id = ${point_id}`
@@ -134,33 +155,9 @@ module.exports = (db) => {
       return res.redirect("back");
     })
     .catch(err => {
-      res
-        .status(500)
-        .json({ error: err.message });
+      return res.status(500).json({ error: err.message });
     });
-    res.send(`Point deleted!`);
   });
-
-  //GET point information by ID
-  router.get("/:point_id", (req, res) => {
-    // query db with point_id
-    // render details about point
-    const templateVars = {
-      id: req.session.userId,
-      name: 'bob',
-      point: {
-        "id": 1,
-        "name": "Epic Location 1",
-        "description": "best spot in the whole city!",
-        "img_url": "https://i.imgur.com/V6UPvSu.jpeg",
-        "longitude": "-79.38",
-        "latitude": "43.65",
-        "active": true,
-        "map_id": 1
-      }
-    };
-    res.render("points_point", templateVars);
- });
 
 
   return router;
