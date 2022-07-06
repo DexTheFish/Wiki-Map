@@ -11,6 +11,10 @@
   <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
   integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
   crossorigin=""></script>
+  <!--Jquery-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+  <script type="text/javascript" src="/scripts/maps_show.js"></script>
 
   <title>Map</title>
 </head>
@@ -34,6 +38,7 @@
       </div>
       <!-- list the points on the map -->
       <section class="card-body">
+        <h6>List of Points</h6>
         <% for (const point of points) {%>
           <a href="/points/<%=point.id%>"><%=point.name%></a>
           <%}%>
@@ -47,27 +52,7 @@
   <!-- Leaflet JS-->
   <script>
     var points = <%- JSON.stringify(points) %>;
-
-    if(points.length > 0) {
-      const [initialLat, initialLong] = [points[0].latitude, points[0].longitude];
-      console.log(initialLat + "and " + initialLong);
-
-      var map = L.map('map').setView([initialLat, initialLong], 13); // [lat, long],
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 18,
-        attribution: '© OpenStreetMap'
-      }).addTo(map);
-
-
-      for(const i in points) {
-        eval("marker_"+ i +" = L.marker(["+points[i].latitude+","+points[i].longitude+"]).addTo(map)");
-        eval("marker_" + i + ".bindPopup('<p>" + points[i].name + "</p>').openPopup()");
-      }
-    } else {
-      alert('no points');
-    }
-
-
+    var map_id = <%- JSON.stringify(map_id) %>;
   </script>
 </body>
 </html>
