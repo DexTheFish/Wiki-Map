@@ -191,7 +191,6 @@ module.exports = (db) => {
     WHERE id = ${map_id}`
     db.query(queryString)
     .then(map => {
-      console.log(queryString)
       return res.redirect("/maps");
     })
   .catch(err => {
@@ -201,11 +200,22 @@ module.exports = (db) => {
     });
   });
 
-  //POST add favourite map
+  //POST add favourite map by ID
   router.post("/:map_id/favs", (req, res) => {
-    //query to add to favourites table
-    res.redirect('back');
-  })
+    const queryString = `
+    INSERT INTO favourite_maps
+    (user_id, map_id)
+    VALUES (       , ${map_id})`
+    db.query(queryString)
+    .then(map => {
+      return res.redirect(`/maps/${map_id}`);
+    })
+  .catch(err => {
+    res
+      .status(500)
+      .json({ error: err.message });
+    });
+  });
 
   //POST add a map to user's favourites
 

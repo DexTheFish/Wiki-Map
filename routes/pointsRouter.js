@@ -53,6 +53,7 @@ module.exports = (db) => {
     VALUES 
     ( $1, $2, $3, ${longitude}, ${latitude}, ${map_id} ) 
     RETURNING *`
+    console.log(img_url);
     db.query(queryString, [name, description, img_url])
     .then(data => {
       // redirect home? login?
