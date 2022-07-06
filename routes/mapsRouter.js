@@ -6,7 +6,7 @@
  */
 
 const express = require('express');
-const router  = express.Router();
+const router = express.Router();
 
 module.exports = (db) => {
 
@@ -17,22 +17,22 @@ module.exports = (db) => {
     SELECT * FROM maps
     WHERE active = true`
     db.query(queryString)
-    .then(data => {
-      const templateVars = { maps: data.rows, id: req.session.userId, name: req.session.name};
-      return res.render("maps_index", templateVars);
-    })
-    .catch(err => {
-      res
-        .status(500)
-        .json({ error: err.message });
-    });
+      .then(data => {
+        const templateVars = { maps: data.rows, id: req.session.userId, name: req.session.name };
+        return res.render("maps_index", templateVars);
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
   });
 
   //GET new map form
   router.get("/new", (req, res) => {
     // if logged in
     //    render page with form for new
-    if(req.session.userId) {
+    if (req.session.userId) {
       const templateVars = {
         id: req.session.userId,
         name: req.session.name
@@ -55,21 +55,21 @@ module.exports = (db) => {
     ($1, $2, $3)
     RETURNING *`
     db.query(queryString, [name, description, creator_id])
-    .then(data => {
-      return res.redirect("/maps"); //maybe redirect to newly created map instead
-    })
-    .catch(err => {
-      res
-        .status(500)
-        .json({ error: err.message });
-    });
+      .then(data => {
+        return res.redirect("/maps"); //maybe redirect to newly created map instead
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
   })
 
   //GET new map form
   router.get("/new", (req, res) => {
     // if logged in
     //    render page with form for new
-    if(req.session.userId) {
+    if (req.session.userId) {
       const templateVars = {
         id: req.session.userId,
         name: req.session.name
@@ -81,43 +81,43 @@ module.exports = (db) => {
 
   //GET subset of user's maps
   router.get("/profile", (req, res) => {
-  // this is in /maps because the queries will look like SELECT * FROM maps
-  // if logged in query faves, query contribution maps, all??
-  //query for favourites
-  const queryString = `
+    // this is in /maps because the queries will look like SELECT * FROM maps
+    // if logged in query faves, query contribution maps, all??
+    //query for favourites
+    const queryString = `
   SELECT DISTINCT ON(maps.name) maps.name, maps.description, maps.id, favourite_maps.id as fav_id
   FROM maps
   JOIN favourite_maps on map_id = maps.id
   WHERE user_id = $1 AND maps.active = TRUE
   `;
-  //query for contributions
-  const queryString2 = `
+    //query for contributions
+    const queryString2 = `
   SELECT maps.name, maps.description, maps.id
   FROM maps
   JOIN points ON points.map_id = maps.id
   JOIN contributions on  contributions.point_id = points.id
   WHERE contributions.user_id = $1 AND maps.active = TRUE
   `
-  let templateVars = {
-    id: req.session.userId,
-    name: req.session.name,
-  }
+    let templateVars = {
+      id: req.session.userId,
+      name: req.session.name,
+    }
 
-  db.query(queryString, [req.session.userId])
-  .then((results) => {
-    templateVars["faves"] = results.rows;
-    console.log(templateVars.faves[0]);
+    db.query(queryString, [req.session.userId])
+      .then((results) => {
+        templateVars["faves"] = results.rows;
+        console.log(templateVars.faves[0]);
 
-    return db.query(queryString2, [req.session.userId]);
-  })
-  .then((results) => {
-    templateVars.contributions = results.rows;
+        return db.query(queryString2, [req.session.userId]);
+      })
+      .then((results) => {
+        templateVars.contributions = results.rows;
 
-    return res.render("maps_profile", templateVars);
-  })
-  .catch((err) => {
-    console.log(err.message);
-  })
+        return res.render("maps_profile", templateVars);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      })
   });
 
   //GET map by ID
@@ -128,18 +128,18 @@ module.exports = (db) => {
     JOIN users ON maps.creator_id = users.id
     WHERE maps.id = $1`
     db.query(queryString, [req.params.map_id])
-    .then(map => {
-      const [map_id, map_name, description, creator_name] = [map.rows[0].id, map.rows[0].name,map.rows[0].description, map.rows[0].creator_name];
-      const id = req.session.userId;
-      const name = req.session.name;
-      const templateVars = { id, name, map_id, map_name, description, creator_name };
-      return res.render("maps_show", templateVars);
-    })
-    .catch(err => {
-      res
-        .status(500)
-        .json({ error: err.message });
-    });
+      .then(map => {
+        const [map_id, map_name, description, creator_name] = [map.rows[0].id, map.rows[0].name, map.rows[0].description, map.rows[0].creator_name];
+        const id = req.session.userId;
+        const name = req.session.name;
+        const templateVars = { id, name, map_id, map_name, description, creator_name };
+        return res.render("maps_show", templateVars);
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
   });
 
   //GET map edit form by ID
@@ -148,20 +148,37 @@ module.exports = (db) => {
     SELECT maps.*, users.name as creator_name
     FROM maps
     JOIN users ON maps.creator_id = users.id
-    WHERE maps.id = ${req.params.map_id}`
-    db.query(queryString)
-    .then(map => {
-      const [map_id, map_name, description, creator_name] = [map.rows[0].id, map.rows[0].name,map.rows[0].description, map.rows[0].creator_name];
-      const id = req.session.userId;
-      const name = req.session.name;
-      const templateVars = { id, name, map_id, map_name, description, creator_name };
-      return res.render("maps_edit", templateVars);
-    })
-    .catch(err => {
-      res
-        .status(500)
-        .json({ error: err.message });
-    });
+    WHERE maps.id = $1`
+    //query for points
+    const queryString2 = `
+    SELECT *
+    FROM points
+    WHERE map_id = $1
+    `;
+    let templateVars = {
+      id: req.session.userId,
+      name: req.session.name
+    };
+
+    db.query(queryString, [req.params.map_id])
+      .then(map => {
+        templateVars.map = map.rows[0];
+        return db.query(queryString2, [req.params.map_id])
+      })
+      .then((points) => {
+        //const [map_id, map_name, description, creator_name] = [map.rows[0].id, map.rows[0].name,map.rows[0].description, map.rows[0].creator_name];
+        //const templateVars = { id, name, map_id, map_name, description, creator_name };
+
+        templateVars.points = points.rows;
+        console.log(templateVars);
+
+        return res.render("maps_edit", templateVars);
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
   });
 
   //POST edit by id
@@ -174,14 +191,14 @@ module.exports = (db) => {
     description = $2
     WHERE id = ${map_id}`
     db.query(queryString, [name, description])
-    .then(data => {
-      res.redirect(`/maps/${req.params.map_id}`);
-    })
-    .catch(err => {
-      res
-        .status(500)
-        .json({ error: err.message });
-    });
+      .then(data => {
+        res.redirect(`/maps/${req.params.map_id}`);
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
   });
 
   //POST delete map by ID
@@ -192,14 +209,14 @@ module.exports = (db) => {
     SET active = false
     WHERE id = ${map_id}`
     db.query(queryString)
-    .then(map => {
-      return res.redirect("/maps");
-    })
-  .catch(err => {
-    res
-      .status(500)
-      .json({ error: err.message });
-    });
+      .then(map => {
+        return res.redirect("/maps");
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
   });
 
   //POST add favourite map by ID
@@ -210,16 +227,16 @@ module.exports = (db) => {
     (user_id, map_id)
     VALUES ( ${req.session.userId}, ${map_id})`
     db.query(queryString)
-    .then(map => {
-      console.log(map.rows)
-      return res.redirect(`/maps/profile`);
-    })
-  .catch(err => {
-    console.log(err)
-    res
-      .status(500)
-      .json({ error: err.message });
-    });
+      .then(map => {
+        console.log(map.rows)
+        return res.redirect(`/maps/profile`);
+      })
+      .catch(err => {
+        console.log(err)
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
   });
 
 
@@ -230,19 +247,19 @@ module.exports = (db) => {
     DELETE FROM favourite_maps
     WHERE favourite_maps.id = ${fav_id}`
     db.query(queryString)
-    .then(map => {
-      console.log(map.rows)
-      return res.redirect(`/maps/profile`);
-    })
-  .catch(err => {
-    console.log(err)
-    res
-      .status(500)
-      .json({ error: err.message });
-    });
+      .then(map => {
+        console.log(map.rows)
+        return res.redirect(`/maps/profile`);
+      })
+      .catch(err => {
+        console.log(err)
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
   });
   //favourite.id passed in as req.params.fav_id
 
-return router;
+  return router;
 };
 
