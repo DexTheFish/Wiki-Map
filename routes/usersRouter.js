@@ -93,7 +93,7 @@ module.exports = (db) => {
 
   router.post("/login", (req, res) => {
     // placeholder
-    res.redirect("/users/login");
+    res.redirect("/users/login/1");
   });
 
   router.get("/login/:user_id", (req, res) => {
