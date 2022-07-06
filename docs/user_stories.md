@@ -1,3 +1,7 @@
+## Lessons Learned
+it was a challenge to manage git workflow, particularly choosing good branches and consistently doing work on proper branches
+
+
 ## User Stories
 
 - As a user, I can see a list of the available maps based on some category
