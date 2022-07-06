@@ -8,6 +8,7 @@
       <div class="navbar-nav justify-content-left">
         <% if (id) { %>
           <a class="nav-item nav-link" href="/maps/profile/">My Profile</a>
+          <a class="nav-item nav-link" href="/maps">Home</a>
         <%}%>
       </div>
       <div class="navbar-nav d-sm-block d-md-none text-light">
@@ -15,7 +16,7 @@
           <form action="/users/logout" method="POST">
             <div class="form-group mb-2">
               <p class="text-light">Logged In As: <%= name.name %></label>
-              <button class="btn btn-outline-danger">Logout</button>
+              <button class="btn btn-outline-danger" style="margin:0.5em">Logout</button>
             </div>
           </form>
           <%} else { %>
@@ -29,7 +30,8 @@
       <% if (id) { %>
         <form action="/users/logout" method="POST">
           <div class="form-group mb-2">
-            <button class="btn btn-outline-danger">Logout</button>
+            <p class="text-light">Logged In As: <%= name.name %></label>
+            <button class="btn btn-outline-danger" style="margin:0.5em">Logout</button>
           </div>
         </form>
         <%} else { %>
