@@ -83,12 +83,14 @@ module.exports = (db) => {
   router.get("/profile", (req, res) => {
   // this is in /maps because the queries will look like SELECT * FROM maps
   // if logged in query faves, query contribution maps, all??
+  //query for favourites
   const queryString = `
-  SELECT maps.name, maps.description, maps.id
+  SELECT DISTINCT ON(maps.name) maps.name, maps.description, maps.id, favourite_maps.id as fav_id
   FROM maps
   JOIN favourite_maps on map_id = maps.id
   WHERE user_id = $1 AND maps.active = TRUE
   `;
+  //query for contributions
   const queryString2 = `
   SELECT maps.name, maps.description, maps.id
   FROM maps
@@ -202,24 +204,44 @@ module.exports = (db) => {
 
   //POST add favourite map by ID
   router.post("/:map_id/favs", (req, res) => {
+    const map_id = req.params.map_id;
     const queryString = `
     INSERT INTO favourite_maps
     (user_id, map_id)
-    VALUES (       , ${map_id})`
+    VALUES ( ${req.session.userId}, ${map_id})`
     db.query(queryString)
     .then(map => {
-      return res.redirect(`/maps/${map_id}`);
+      console.log(map.rows)
+      return res.redirect(`/maps/profile`);
     })
   .catch(err => {
+    console.log(err)
     res
       .status(500)
       .json({ error: err.message });
     });
   });
 
-  //POST add a map to user's favourites
 
   //POST remove a map from user's favourites
+  router.post("/:fav_id/delete", (req, res) => {
+    const fav_id = req.params.fav_id;
+    const queryString = `
+    DELETE FROM favourite_maps
+    WHERE favourite_maps.id = ${fav_id}`
+    db.query(queryString)
+    .then(map => {
+      console.log(map.rows)
+      return res.redirect(`/maps/profile`);
+    })
+  .catch(err => {
+    console.log(err)
+    res
+      .status(500)
+      .json({ error: err.message });
+    });
+  });
+  //favourite.id passed in as req.params.fav_id
 
 return router;
 };
