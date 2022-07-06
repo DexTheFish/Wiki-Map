@@ -14,28 +14,28 @@
 
     <%- include('partials/_header') %>
 
-    <main style="margin: 1em;">
+    <main class="border rounded mx-5 my-5 px-2 py-2" >
       <h3>Create a new point</h3>
       <form action="" method="post" id="" class="new-point">
 
-        <div class="">
-          <label for="">Title</label>
-          <input type="text" name="name" placeholder="Title" id="new-point-title">
+        <div class="form-group">
+          <label for="new-point-title">Title</label>
+          <input class="form-control" type="text" name="name" placeholder="Title" id="new-point-title">
         </div>
 
-        <div class="">
-          <label for="">Description</label>
-          <textarea placeholder="Description" name="description" id="new-point-description" cols="30" rows="10"></textarea>
+        <div class="form-group">
+          <label for="new-point-description">Description</label>
+          <textarea class="form-control" placeholder="Description" name="description" id="new-point-description" cols="30" rows="10"></textarea>
         </div>
 
-        <div class="">
-          <label for="">Image</label>
-          <input placeholder="Image URL" type="text" name="img_url" id="new-point-image">
+        <div class="form-group">
+          <label for="new-point-image">Image</label>
+          <input class="form-control" placeholder="Image URL" type="text" name="img_url" id="new-point-image">
         </div>
 
-         <div class="">
-              <button>Create</button>
-              <a id="new-point-form-cancel" href="#">Cancel</a>
+         <div class="form-group">
+              <button class="btn btn-primary">Create</button>
+              <a class="text-danger" id="new-point-form-cancel" href="#">Cancel</a>
           </div>
 
       </form>
