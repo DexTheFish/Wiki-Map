@@ -21,7 +21,7 @@
     <!--HEADER ENDS-->
 
     <main class="card" style="margin: 5%;">
-      <div id="map" style="height: 30em; width: 100%"></div>
+      <div id="map" style="height: 30em; width: 100%" class=""></div>
       <div class="card-body">
           <h5 class="card-title"><%= map_name %></h5>
           <p class="card-text"><%= description %></p>
@@ -55,6 +55,7 @@
 
       for(const i in points) {
         eval("marker_"+ i +" = L.marker(["+points[i].latitude+","+points[i].longitude+"]).addTo(map)");
+        eval("marker_" + i + ".bindPopup('<p>" + points[i].name + "</p>').openPopup()");
       }
     } else {
       alert('no points');
