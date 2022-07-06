@@ -68,21 +68,25 @@ module.exports = (db) => {
   router.get("/:point_id", (req, res) => {
     // query db with point_id
     // render details about point
-    const templateVars = {
-      id: req.session.userId,
-      name: req.session.name,
-      point: {
-        "id": 1,
-        "name": "Epic Location 1",
-        "description": "best spot in the whole city!",
-        "img_url": "https://i.imgur.com/V6UPvSu.jpeg",
-        "longitude": "-79.38",
-        "latitude": "43.65",
-        "active": true,
-        "map_id": 1
+    const queryString = `
+    SELECT *
+    FROM points
+    WHERE id = $1
+    `;
+
+    db.query(queryString,[req.params.point_id])
+    .then((results) => {
+      const templateVars = {
+        id: req.session.userId,
+        name: req.session.name,
+        point: results.rows[0]
       }
-    };
-    return res.render("points_show", templateVars);
+      console.log(results.rows);
+      return res.render("points_show", templateVars);
+    })
+    .catch((err) => {
+      return res.status(500).json({error: err.message});
+    })
   });
 
 
