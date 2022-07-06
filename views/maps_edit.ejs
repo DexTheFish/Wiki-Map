@@ -23,13 +23,6 @@
   <main style="margin: 1em;">
     <h3>Edit or Delete Map: <%=map.name%> </h3>
     <div id="map" class="my-5 " style="height: 360px; width: 100%">
-      <script>
-        var map = L.map('map').setView([51.505, -0.09], 13); // [lat, long],
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '© OpenStreetMap'
-    }).addTo(map);
-      </script>
     </div>
 
     <p>Map by: <%= map.creator_name  %></p>
@@ -53,5 +46,29 @@
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <!-- Leaflet JS-->
+  <script>
+    var points = <%- JSON.stringify(points) %>;
+
+    if(points.length > 0) {
+      const [initialLat, initialLong] = [points[0].latitude, points[0].longitude];
+      console.log(initialLat + "and " + initialLong);
+
+      var map = L.map('map').setView([initialLat, initialLong], 13); // [lat, long],
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: '© OpenStreetMap'
+      }).addTo(map);
+
+
+      for(const i in points) {
+        eval("marker_"+ i +" = L.marker(["+points[i].latitude+","+points[i].longitude+"]).addTo(map)");
+      }
+    } else {
+      alert('no points');
+    }
+
+
+  </script>
 </body>
 </html>
