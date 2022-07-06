@@ -13,7 +13,7 @@ module.exports = (db) => {
 
   //check for login in router, only need to be done once
   // router.use((req, res, next) => {
-  //   if (!req.cookies.user_id) {
+  //   if (!req.cookies.userId) {
   //     return res.redirect('/login');
   //   }
   //  next();
