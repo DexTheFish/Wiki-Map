@@ -3,6 +3,15 @@
 <head>
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+    integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+    crossorigin=""/>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+    integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+    crossorigin=""></script>
+
   <title>Map</title>
 </head>
 
@@ -10,26 +19,36 @@
   <!--HEADER BEGINS-->
   <%- include('partials/_header') %>
   <!--HEADER ENDS-->
-  
+
   <main style="margin: 1em;">
-    <h3>Edit or Delete Map: <%=map_name%> </h3>
-    <p>Map by: <%= creator_name  %></p>
-    <form method="POST" action="/maps/<%= map_id %>/edit">
+    <h3>Edit or Delete Map: <%=map.name%> </h3>
+    <div id="map" class="my-5 " style="height: 360px; width: 100%">
+      <script>
+        var map = L.map('map').setView([51.505, -0.09], 13); // [lat, long],
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap'
+    }).addTo(map);
+      </script>
+    </div>
+
+    <p>Map by: <%= map.creator_name  %></p>
+    <form method="POST" action="/maps/<%= map.id %>/edit">
       <div class="form-group">
         <label for="inputName">Change map name</label>
-        <input class="form-control" name="name" aria-describedby="emailHelp" value="<%= map_name %>">
+        <input class="form-control" name="name" aria-describedby="emailHelp" value="<%= map.name %>">
       </div>
       <div class="form-group">
         <label for="inputDescription">Change map description</label>
-        <input class="form-control" name="description" value="<%= description %>">
+        <input class="form-control" name="description" value="<%= map.description %>">
       </div>
       <button type="submit" class="btn btn-primary">Edit</button>
     </form>
-    <form method="POST" action="/maps/<%= map_id %>/delete">
+    <form method="POST" action="/maps/<%= map.id %>/delete">
         <button type="submit" class="btn btn-danger">Delete</button>
     </form>
   </main>
-  
+
   <!-- Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
