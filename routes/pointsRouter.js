@@ -13,6 +13,7 @@ module.exports = (db) => {
 
   //check for login in router, only need to be done once
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   // router.use((req, res, next) => {
   //   if (!req.cookies.user_id) {
   //     return res.redirect('/login');
@@ -20,12 +21,17 @@ module.exports = (db) => {
   //  next();
   // });
 =======
+=======
+>>>>>>> Stashed changes
   router.use((req, res, next) => {
     if (!req.session.userId) {
       return res.redirect('/users/login');
     }
    next();
   });
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
   //GET new point form
