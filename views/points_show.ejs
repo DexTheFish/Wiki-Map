@@ -48,7 +48,7 @@
       attribution: '© OpenStreetMap'
     }).addTo(map);
     var marker = L.marker([lat, long]).addTo(map);
-    marker.bindPopup(`<img style="height: 100%; width: 100%" class="card-img-top" src="https://i.imgur.com/V6UPvSu.jpeg" alt="Card image cap">`).openPopup();
+    marker.bindPopup(`<img style="height: 100%; width: 100%" class="card-img-top" src="<%- point.img_url %>" alt="Card image cap">`).openPopup();
   </script>
 </body>
 </html>
