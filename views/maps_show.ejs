@@ -32,6 +32,12 @@
             <button type="submit" class="btn btn-primary">Add Map to Favourites</button>
           </form>
       </div>
+      <!-- list the points on the map -->
+      <section class="card-body">
+        <% for (const point of points) {%>
+          <a href="/points/<%=point.id%>"><%=point.name%></a>
+          <%}%>
+      </section>
     </main>
 
    <!-- Bootstrap JS -->
