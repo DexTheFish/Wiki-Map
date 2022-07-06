@@ -62,7 +62,8 @@
 
 
       for(const i in points) {
-        eval("marker_"+ i +" = L.marker(["+points[i].latitude+","+points[i].longitude+"]).addTo(map)");
+        eval("marker_" + i + " = L.marker([" + points[i].latitude+ ","+points[i].longitude+"]).addTo(map)");
+        eval("marker_" + i + ".bindPopup('<p>" + points[i].name + "</p>').openPopup()");
       }
     } else {
       alert('no points');
