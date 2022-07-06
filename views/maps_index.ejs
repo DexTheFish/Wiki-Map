@@ -35,7 +35,7 @@
             <th scope="col">Thumbnail</th>
             <th scope="col">Map Name</th>
             <th scope="col">Description</th>
-            <th scope="col">View</th>
+            <th scope="col">Options</th>
           </tr>
         </thead>
         <tbody>
@@ -46,7 +46,7 @@
               <td><%=map.name%></td>
               <td><%=map.description%></td>
               <td class="container mx-auto">
-                <button type="button" class="btn btn-outline-primary d-block p-2"><a href="/maps/<%- map.id %>">View</a></button>
+                <button type="button" class="btn btn-outline-primary d-block p-2"><a href="/maps/<%- map.id %>"></a>View</button>
                 <% if (id) { %>
                   <form class="form-inline" method="POST" action="/maps/<%= map.id %>/delete"><button type="submit" class="btn btn-outline-danger d-block p-2">Delete</button></form>
                 <% } %>
