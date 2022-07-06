@@ -92,19 +92,8 @@ module.exports = (db) => {
   });
 
   router.post("/login", (req, res) => {
-    req.session = null;
-
-    // for now we will not verify the password
-    // STRETCH: User Authentication
-    //  use the req.body to query the db
-    //  if a user matches the info:
-    //    set cookie <-> id
-    //    redirect home
-    //  if no match:
-    //    redirect to login
-    //    show angry message
-    const email = req.body.email;
-    res.redirect("/maps");
+    // placeholder
+    res.redirect("/users/login");
   });
 
   router.get("/login/:user_id", (req, res) => {
