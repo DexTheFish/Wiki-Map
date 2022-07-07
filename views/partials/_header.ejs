@@ -27,11 +27,11 @@
       </div>
 
     </div>
-    <div class="navbar-nav d-none d-md-block">
+    <div class="navbar-nav d-none d-md-block d-flex">
       <% if (id) { %>
         <form action="/users/logout" method="POST">
-          <div class="form-group mb-2">
-            <p class="text-light">Logged In As: <%= name.name %></label>
+          <div class="form-group d-flex flex-row justify-content-center align-items-center mb-0">
+            <p class="text-light align-self-center mb-0">Logged In As: <%= name.name %></label></p>
             <button class="btn btn-outline-danger" style="margin:0.5em">Logout</button>
           </div>
         </form>
