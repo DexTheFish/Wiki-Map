@@ -48,6 +48,9 @@ module.exports = (db) => {
     //STRETCH: use cookies to authorize map creation
     const [name, description] = [req.body.name, req.body.description];
     const creator_id = req.session.userId;
+    if (!name || !description) {
+      return res.send('You must enter a name and description!');
+    }
     const queryString = `
     INSERT INTO maps
     (name, description, creator_id)
