@@ -41,15 +41,15 @@
         <thead class="thead-light">
           <tr>
             <th scope="col">Thumbnail</th>
-            <th scope="col">Map Name</th>
-            <th scope="col">Description</th>
+            <th scope="col" class="col-2">Map Name</th>
+            <th scope="col" class="col-3">Description</th>
             <th scope="col">Options</th>
           </tr>
         </thead>
         <tbody>
           <%for (let map of maps) {%>
             <tr>
-              <td>insert thumbnail here</td>
+              <td><a href="/maps/<%- map.id %>"><img src="https://cdn-icons-png.flaticon.com/512/1653/1653458.png" style="width:6em;height:6em;"></a></td>
               <td><%=map.name%></td>
               <td><%=map.description%></td>
               <td class="container mx-auto">
