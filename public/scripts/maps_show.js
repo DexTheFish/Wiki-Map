@@ -1,5 +1,11 @@
 
 $(document).ready(function() {
+  import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
+const searchControl = new GeoSearchControl({
+  provider: new OpenStreetMapProvider(),
+});
+map.addControl(searchControl);
+  
   console.log(map_id);
   let initialLat = 43.7;
   let initialLong = -79.4;
