@@ -87,18 +87,20 @@
         <% } %>
         <hr>
         <% if (contributions) { %>
-          <h4 id="contributions">Maps I've Contributed To</h4>
+          <h4 id="contributions">My Contributions</h4>
         <table class="table table-bordered table-hover">
           <thead class="thead-light">
             <tr>
+              <th scope="col"></th>
               <th scope="col">Map Name</th>
               <th scope="col">Description</th>
-              <th scope="col">Action</th>
+              <th scope="col">Options</th>
             </tr>
           </thead>
           <tbody>
             <% for(const map of contributions) { %>
               <tr>
+                <td><a href="/maps/<%- map.id %>"><img src="https://cdn-icons-png.flaticon.com/512/1653/1653458.png" style="width:6em;height:6em;"></a></td>
                 <td><%= map.name%></td>
                 <td><%-map.description%></td>
                 <td>
