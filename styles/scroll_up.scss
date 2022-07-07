@@ -1,0 +1,24 @@
+button.scroll-up {
+  display: none;
+
+  position: fixed;
+  bottom: 1em;
+  right: 1em;
+  z-index: 1;
+
+  background-color: #343a40;
+  color: #FFFFFF;
+
+  border: none;
+  outline: none;
+  border-radius: 75% ;
+
+  cursor: pointer;
+
+  padding: 1em;
+}
+
+button.scroll-up:hover {
+  background-color: #FFC063;
+  background-image: url("https://www.transparenttextures.com/patterns/diagmonds-light.png");
+}
