@@ -7,4 +7,5 @@ CREATE TABLE maps (
   description TEXT NOT NULL,
   active BOOLEAN DEFAULT TRUE,
   creator_id INTEGER REFERENCES users(id) ON DELETE CASCADE
+  -- map-type?   (restaurants, etc.)
 );

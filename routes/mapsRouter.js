@@ -107,7 +107,7 @@ module.exports = (db) => {
     db.query(queryString, [req.session.userId])
       .then((results) => {
         templateVars["faves"] = results.rows;
-        console.log(templateVars.faves[0]);
+        console.log('TESTING!!!!',templateVars);
 
         return db.query(queryString2, [req.session.userId]);
       })
@@ -132,7 +132,7 @@ module.exports = (db) => {
     const queryString2 = `
     SELECT *
     FROM points
-    WHERE map_id = $1
+    WHERE map_id = $1 AND active = true
     `;
     const templateVars = {}
     const id = req.session.userId;
@@ -177,7 +177,7 @@ module.exports = (db) => {
     const queryString2 = `
     SELECT *
     FROM points
-    WHERE map_id = $1
+    WHERE map_id = $1 AND active = true
     `;
     let templateVars = {
       id: req.session.userId,
@@ -263,16 +263,16 @@ module.exports = (db) => {
       });
   });
 
-
   //POST remove a map from user's favourites
-  router.post("/:fav_id/delete", (req, res) => {
+  router.post("/:fav_id/unfave", (req, res) => {
     const fav_id = req.params.fav_id;
+    console.log(fav_id);
     const queryString = `
     DELETE FROM favourite_maps
-    WHERE favourite_maps.id = ${fav_id}`
-    db.query(queryString)
+    WHERE id = $1`
+    db.query(queryString, [fav_id])
       .then(map => {
-        console.log(map.rows)
+        console.log("Made it This FAR!!!~~~");
         return res.redirect(`/maps/profile`);
       })
       .catch(err => {
@@ -282,7 +282,6 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
-  //favourite.id passed in as req.params.fav_id
 
   return router;
 };

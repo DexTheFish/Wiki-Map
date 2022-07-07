@@ -44,6 +44,7 @@ module.exports = (db) => {
     //  save to db (later)
     //if logged out
     // redirect home? login?
+    console.log(req.body);
     const latitude = req.body.lat;
     const longitude = req.body.long;
     const map_id = req.body.map_id;
@@ -73,9 +74,9 @@ module.exports = (db) => {
     const queryString = `
     SELECT *
     FROM points
-    WHERE id = $1`
+    WHERE id = $1 AND active = true`
 
-    db.query(queryString,[point_id])
+    db.query(queryString, [point_id])
     .then((results) => {
       const templateVars = {
         id: req.session.userId,
@@ -98,9 +99,9 @@ module.exports = (db) => {
     const queryString = `
     SELECT *
     FROM points
-    WHERE id = ${point_id}`
+    WHERE id = $1 AND active = true`
 
-    db.query(queryString)
+    db.query(queryString, [point_id])
     .then(results => {
       console.log(results.rows);
       const templateVars = {
@@ -148,11 +149,13 @@ module.exports = (db) => {
     const queryString = `
     UPDATE points
     SET active = false
-    WHERE id = ${point_id}`
+    WHERE id = ${point_id}
+    RETURNING *`
     console.log(queryString)
     db.query(queryString)
-    .then(data => {
-      return res.redirect("back");
+    .then(result => {
+      const map_id = result.rows[0].map_id
+      return res.redirect(`/maps/${map_id}`);
     })
     .catch(err => {
       return res.status(500).json({ error: err.message });

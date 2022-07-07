@@ -44,28 +44,24 @@ $(document).ready(function() {
     ]
   }).addTo(map);
       
-    const results = L.layerGroup().addTo(map);
+  const results = L.layerGroup().addTo(map);
 
-    searchControl.on("results", (data) => {
-      console.log(data.results);
-      results.clearLayers();
-     for (let i = data.results.length - 1; i >= 0; i--) {
-        // const lngLatString = `${Math.round(data.results[i].latlng.lng * 1000000) / 1000000}, ${
-        //   Math.round(data.results[i].latlng.lat * 1000000) / 1000000
-        // }`;
+  searchControl.on("results", (data) => {
+    console.log(data.results);
+    results.clearLayers();
+    for (let i = data.results.length - 1; i >= 0; i--) {
+      // const lngLatString = `${Math.round(data.results[i].latlng.lng * 1000000) / 1000000}, ${
+      //   Math.round(data.results[i].latlng.lat * 1000000) / 1000000
+      // }`;
 
-        const long = data.results[i].latlng.lng;
-        const lat = data.results[i].latlng.lat;
-        
-        const marker = L.marker(data.results[i].latlng);
-        marker.bindPopup(`<a class="" href="/points/new?lat=${lat}&long=${long}&map_id=${map_id}" role="button">Add Point Here</a>`);
-        results.addLayer(marker);
-        marker.openPopup();
-      }
-    });
-
-
-
-
+      const long = data.results[i].latlng.lng;
+      const lat = data.results[i].latlng.lat;
+      
+      const marker = L.marker(data.results[i].latlng);
+      marker.bindPopup(`<a class="" href="/points/new?lat=${lat}&long=${long}&map_id=${map_id}" role="button">Add Point Here</a>`);
+      results.addLayer(marker);
+      marker.openPopup();
+    }
   });
+});
   

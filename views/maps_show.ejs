@@ -3,15 +3,24 @@
 <head>
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> master
   <!-- Leaflet CSS -->
   <!-- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
   integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
   crossorigin=""/>
+<<<<<<< HEAD
    -->
+=======
+
+>>>>>>> master
   <!-- Leaflet JS -->
   <!-- <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
   integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+<<<<<<< HEAD
   crossorigin=""></script> -->
   
       <!-- Load Leaflet from CDN -->
@@ -28,6 +37,14 @@
       <script src="https://unpkg.com/esri-leaflet-geocoder@^3.0.0/dist/esri-leaflet-geocoder.js"></script>
   
   
+=======
+  crossorigin=""></script>
+
+  <!-- Leaflet Geosearch -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-geosearch@3.0.0/dist/geosearch.css"/>
+  <script src="https://unpkg.com/leaflet-geosearch@3.0.0/dist/geosearch.umd.js"></script>
+
+>>>>>>> master
   <!--Jquery-->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
@@ -48,20 +65,24 @@
           <h5 class="card-title"><%= map_name %></h5>
           <p class="card-text"><%= description %></p>
           <p class="card-text">Map created by: <%= creator_name %></p>
-          <a href="/maps" class="btn btn-primary">Return to Maps</a>
           <% if (id) { %>
             <a href="/maps/<%= map_id %>/edit" class="btn btn-primary">Edit</a>
             <form input style="display: inline;" method="POST" action="/maps/<%= map_id %>/favs">
-              <button type="submit" class="btn btn-primary">Add Map to Favourites</button>
+              <button type="submit" class="btn btn-primary">Add to Favourites</button>
             </form>
-          <% } %>
+            <% } %>
+            <a href="/maps" class="btn btn-secondary">Return to Maps</a>
       </div>
       <!-- list the points on the map -->
       <section class="card-body">
         <h6>List of Points</h6>
         <% for (const point of points) {%>
           <a href="/points/<%=point.id%>"><%=point.name%></a>
-          <%}%>
+        <%}%>
+        <% if (points.length === 0) {%>
+          <p>No points added yet.</p>
+        <%}%>
+
       </section>
     </main>
 

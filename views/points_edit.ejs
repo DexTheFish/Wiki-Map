@@ -64,11 +64,11 @@
             <input class="form-control" name="img_url" value="<%= point.img_url %>" >
           </div>
 
-          <button type="submit" class="btn btn-primary">Edit</button>
+          <button type="submit" class="btn btn-primary">Submit Changes</button>
         </form>
-
+        <a href="/maps/<%- point.map_id %>" class="btn btn-secondary">Return to Map</a>
         <form id="test" method="POST" action="/points/<%= point.id %>/delete">
-            <button type="submit" class="btn btn-danger">Delete</button>
+            <button type="submit" class="btn btn-danger">Delete Point</button>
         </form>
 
       </main>

@@ -33,11 +33,11 @@
           <p class="card-text"><%- point.description %></p>
           <p class="card-text">Coordinates: [<span id="lat"><%- point.latitude %></span>,<span id="long"><%- point.longitude %>]</span> </p>
 
-          <a href="/maps/<%- point.map_id %>" class="btn btn-primary">Return to Map</a>
 
           <% if (id) { %>
             <a href="/points/<%- point.id %>/edit" class="btn btn-primary">Edit</a>
-          <% } %>
+            <% } %>
+            <a href="/maps/<%- point.map_id %>" class="btn btn-secondary">Return to Map</a>
 
 
       </div>
