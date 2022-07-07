@@ -53,9 +53,8 @@
             </div>
           </div>
         </div>
-
-        <% if (faves) { %>
-          <h4 id="favourites">My Fave Maps</h4>
+        <h4 id="favourites">My Fave Maps</h4>
+        <% if (faves.length > 0) { %>
         <table class="table table-bordered table-hover">
           <thead class="thead-light">
             <tr>
@@ -83,11 +82,11 @@
           </tbody>
         </table>
         <% } else { %>
-          <h4 id="favourites">You have no Favourite Maps</h4>
+          <p id="favourites">You have no Favourite Maps</h4>
         <% } %>
         <hr>
-        <% if (contributions) { %>
-          <h4 id="contributions">My Contributions</h4>
+        <h4 id="contributions">My Contributions</h4>
+        <% if (contributions.length > 0) { %>
         <table class="table table-bordered table-hover">
           <thead class="thead-light">
             <tr>
@@ -112,7 +111,7 @@
           </tbody>
         </table>
         <% } else { %>
-          <h4 id="contributions">You have no Contributions</h4>
+          <p id="contributions">You have no Contributions</h4>
         <% } %>
     <% } %>
     <button class="scroll-up"><i class="fa-solid fa-angles-up"></i></button>

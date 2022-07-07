@@ -93,7 +93,7 @@ module.exports = (db) => {
   `;
     //query for contributions
     const queryString2 = `
-  SELECT maps.name, maps.description, maps.id
+  SELECT DISTINCT maps.name, maps.description, maps.id
   FROM maps
   JOIN points ON points.map_id = maps.id
   JOIN contributions on  contributions.point_id = points.id
@@ -106,8 +106,8 @@ module.exports = (db) => {
 
     db.query(queryString, [req.session.userId])
       .then((results) => {
+        console.log(results.rows);
         templateVars["faves"] = results.rows;
-        console.log('TESTING!!!!',templateVars);
 
         return db.query(queryString2, [req.session.userId]);
       })
