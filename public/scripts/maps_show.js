@@ -1,6 +1,4 @@
 $(document).ready(function() {
-<<<<<<< Updated upstream
-=======
 
 // Either get GeoSearch from the window global, or import from `leaflet-geosearch`
 // import * as GeoSearch from 'leaflet-geosearch';
@@ -12,7 +10,6 @@ $(document).ready(function() {
 // map.addControl(search);
 
 
->>>>>>> Stashed changes
   console.log(map_id);
   let initialLat = 43.7;
   let initialLong = -79.4;
