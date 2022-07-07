@@ -55,11 +55,18 @@ module.exports = (db) => {
     VALUES
     ( $1, $2, $3, ${longitude}, ${latitude}, ${map_id} )
     RETURNING *`
+    const queryString2 = `
+    INSERT INTO contributions (user_id, point_id)
+    VALUES ($1, $2)
+    `
 
     db.query(queryString, [name, description, img_url])
     .then(data => {
-      // redirect home? login?
-      return res.redirect(`/maps/${map_id}`);
+      const point_id = data.rows[0].id;
+      return db.query(queryString2, [req.session.userId,point_id])
+    })
+    .then(() => {
+      res.redirect(`/maps/${map_id}`);
     })
     .catch(err => {
     return res.status(500).json({ error: err.message });
@@ -127,7 +134,15 @@ module.exports = (db) => {
     description = $2,
     img_url = $3
     WHERE id = ${point_id}`
-    db.query(queryString, [name, description, img_url])
+
+    const queryString2 = `
+    INSERT INTO contributions (user_id, point_id)
+    VALUES ($1, $2)
+    `
+    db.query(queryString2, [req.session.userId,point_id])
+    .then((result) => {
+      return db.query(queryString, [name, description, img_url]);
+    })
     .then(data => {
       return res.redirect(`/points/${point_id}`);
     })
@@ -151,10 +166,15 @@ module.exports = (db) => {
     SET active = false
     WHERE id = ${point_id}
     RETURNING *`
-    console.log(queryString)
-    db.query(queryString)
+
+    const queryString2 = `
+    INSERT INTO contributions (user_id, point_id)
+    VALUES ($1, $2)
+    `
+    db.query(queryString2, [req.session.userId,point_id])
+    .then((results) => {return db.query(queryString)})
     .then(result => {
-      const map_id = result.rows[0].map_id
+      const map_id = result.rows[0].map_id;
       return res.redirect(`/maps/${map_id}`);
     })
     .catch(err => {
