@@ -132,7 +132,7 @@ module.exports = (db) => {
     const queryString2 = `
     SELECT *
     FROM points
-    WHERE map_id = $1
+    WHERE map_id = $1 AND active = true
     `;
     const templateVars = {}
     const id = req.session.userId;
@@ -177,7 +177,7 @@ module.exports = (db) => {
     const queryString2 = `
     SELECT *
     FROM points
-    WHERE map_id = $1
+    WHERE map_id = $1 AND active = true
     `;
     let templateVars = {
       id: req.session.userId,
@@ -263,7 +263,6 @@ module.exports = (db) => {
       });
   });
 
-
   //POST remove a map from user's favourites
   router.post("/:fav_id/delete", (req, res) => {
     const fav_id = req.params.fav_id;
@@ -282,7 +281,6 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
-  //favourite.id passed in as req.params.fav_id
 
   return router;
 };
