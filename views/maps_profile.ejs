@@ -59,6 +59,7 @@
         <table class="table table-bordered table-hover">
           <thead class="thead-light">
             <tr>
+              <th scope="col"></th>
               <th scope="col">Map Name</th>
               <th scope="col">Description</th>
               <th scope="col">Options</th>
@@ -67,11 +68,12 @@
           <tbody>
             <% for(const map of faves) { %>
               <tr>
+                <td><a href="/maps/<%- map.id %>"><img src="https://cdn-icons-png.flaticon.com/512/1653/1653458.png" style="width:6em;height:6em;"></a></td>
                 <td><%= map.name%></td>
                 <td><%-map.description%></td>
                 <td>
                   <style>form { display: inline; }</style>
-                  
+
                   <a href="/maps/<%- map.id %>" class="btn btn-outline-primary" style="border:none;" data-toggle="tooltip" data-placement="left" title="View Map Details"><i class="fa-solid fa-eye"></i> View</a>
                   <a href="/maps/<%= map.id %>/edit" class="btn btn-outline-warning" style="border:none;" data-toggle="tooltip" data-placement="left" title="Edit Map Details"><i class="fa-solid fa-pencil"></i> Edit</a>
                   <form class="form-inline" method="POST" action="/maps/<%= map.fav_id %>/delete"><button style="border:none;" type="submit" class="btn btn-outline-danger" data-toggle="tooltip" data-placement="left" title="Remove Map From Favourites"><i class="fa-solid fa-trash-can"></i> Remove</button></form>
