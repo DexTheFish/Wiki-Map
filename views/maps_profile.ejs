@@ -11,6 +11,8 @@
 
   <!-- Internal CSS -->
   <link rel="stylesheet" href="/styles/scroll_up.css" type="text/css" />
+  <link rel="stylesheet" href="/styles/forms.css" type="text/css" />
+
 
   <!-- External JS -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -59,7 +61,7 @@
             <tr>
               <th scope="col">Map Name</th>
               <th scope="col">Description</th>
-              <th scope="col">Action</th>
+              <th scope="col">Options</th>
             </tr>
           </thead>
           <tbody>
@@ -68,9 +70,11 @@
                 <td><%= map.name%></td>
                 <td><%-map.description%></td>
                 <td>
-                  <button type="button" class="btn btn-outline-primary d-block" data-toggle="tooltip" data-placement="left" title="View Map Details"><a href="/maps/<%- map.id %>">View</a></button>
-                  <button type="button" class="btn btn-outline-primary d-block" data-toggle="tooltip" data-placement="left" title="Edit Map Details"><a href="/maps/<%= map.id %>/edit">Edit</a></button>
-                  <form class="form-inline" method="POST" action="/maps/<%= map.fav_id %>/delete"><button type="submit" class="btn btn-outline-danger" data-toggle="tooltip" data-placement="left" title="Remove Map From Favourites">Remove</button></form>
+                  <style>form { display: inline; }</style>
+                  
+                  <a href="/maps/<%- map.id %>" class="btn btn-outline-primary" style="border:none;" data-toggle="tooltip" data-placement="left" title="View Map Details"><i class="fa-solid fa-eye"></i> View</a>
+                  <a href="/maps/<%= map.id %>/edit" class="btn btn-outline-warning" style="border:none;" data-toggle="tooltip" data-placement="left" title="Edit Map Details"><i class="fa-solid fa-pencil"></i> Edit</a>
+                  <form class="form-inline" method="POST" action="/maps/<%= map.fav_id %>/delete"><button style="border:none;" type="submit" class="btn btn-outline-danger" data-toggle="tooltip" data-placement="left" title="Remove Map From Favourites"><i class="fa-solid fa-trash-can"></i> Remove</button></form>
                 </td>
               </tr>
             <% } %>
@@ -96,8 +100,8 @@
                 <td><%= map.name%></td>
                 <td><%-map.description%></td>
                 <td>
-                  <button type="button" class="btn btn-outline-primary d-block" data-toggle="tooltip" data-placement="left" title="View Map Details"><a href="/maps/<%- map.id %>">View</a></button>
-                  <button type="button" class="btn btn-outline-primary d-block" data-toggle="tooltip" data-placement="left" title="Edit Map Details"><a href="/maps/<%= map.id %>/edit">Edit</a></button>
+                  <a href="/maps/<%- map.id %>" class="btn btn-outline-primary" style="border:none;" data-toggle="tooltip" data-placement="left" title="View Map Details"><i class="fa-solid fa-eye"></i> View</a>
+                  <a href="/maps/<%= map.id %>/edit" class="btn btn-outline-warning" style="border:none;" data-toggle="tooltip" data-placement="left" title="Edit Map Details"><i class="fa-solid fa-pencil"></i> Edit</a>
                 </td>
               </tr>
             <% } %>
