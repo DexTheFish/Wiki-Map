@@ -1,12 +1,25 @@
-
 $(document).ready(function() {
+<<<<<<< Updated upstream
+=======
+
+// Either get GeoSearch from the window global, or import from `leaflet-geosearch`
+// import * as GeoSearch from 'leaflet-geosearch';
+// const map = L.map('map').setView([51.505, -0.09], 13);
+// L.tileLayer('//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+// const search = new GeoSearch.GeoSearchControl({
+//   provider: new GeoSearch.OpenStreetMapProvider(),
+// });
+// map.addControl(search);
+
+
+>>>>>>> Stashed changes
   console.log(map_id);
   let initialLat = 43.7;
   let initialLong = -79.4;
   if(points.length > 0) {
     [initialLat, initialLong] = [points[0].latitude, points[0].longitude];
   }
-    var map = L.map('map').setView([initialLat, initialLong], 13); // [lat, long],
+    const map = L.map('map').setView([initialLat, initialLong], 13); // [lat, long],
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18,
       attribution: '© OpenStreetMap'
