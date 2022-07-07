@@ -1,13 +1,24 @@
 $(document).ready(function() {
 
-  console.log(map_id);
-  let initialLat = 43.7;
-  let initialLong = -79.4;
-  if(points.length > 0) {
-    [initialLat, initialLong] = [points[0].latitude, points[0].longitude];
+  const map = L.map('map');
+
+  if(points.length > 1) {
+    let latlngArray = [];
+    for(p of points) {
+      latlngArray.push([p.latitude, p.longitude]);
+    }
+    map.fitBounds(latlngArray);
+  } else {
+      //default lat/long
+      let initialLat = 43.7;
+      let initialLong = -79.4;
+
+      if(points.length > 0) {
+        [initialLat, initialLong] = [points[0].latitude, points[0].longitude];
+      }
+    map.setView([initialLat, initialLong], 14); // [lat, long],
   }
-  const map = L.map('map').setView([initialLat, initialLong], 13); // [lat, long],
-  
+
   L.esri.Vector.vectorBasemapLayer(basemapEnum, {
     apiKey: apiKey
   }).addTo(map);
@@ -40,7 +51,7 @@ $(document).ready(function() {
       })
     ]
   }).addTo(map);
-      
+
   const results = L.layerGroup().addTo(map);
 
   searchControl.on("results", (data) => {
@@ -53,7 +64,7 @@ $(document).ready(function() {
 
       const long = data.results[i].latlng.lng;
       const lat = data.results[i].latlng.lat;
-      
+
       const marker = L.marker(data.results[i].latlng);
       marker.bindPopup(`<a class="" href="/points/new?lat=${lat}&long=${long}&map_id=${map_id}" role="button">Add Point Here</a>`);
       results.addLayer(marker);
@@ -61,4 +72,4 @@ $(document).ready(function() {
     }
   });
 });
-  
+
