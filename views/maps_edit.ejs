@@ -24,11 +24,11 @@
 
   <% if (id) { %>
     <main style="margin: 1em;">
-      <h3>Edit or Delete Map: <%=map.name%> </h3>
-      <div id="map" class="my-5 " style="height: 45em; width: 100%">
+      <h4> <%=map.name%> </h4>
+      <div id="map" class="my-5 " style="height: 43em; width: 100%;">
       </div>
+      <p>Map created by: <%= map.creator_name  %></p>
 
-      <p>Map by: <%= map.creator_name  %></p>
       <form method="POST" action="/maps/<%= map.id %>/edit">
         <div class="form-group">
           <label for="inputName">Change map name</label>
@@ -38,12 +38,12 @@
           <label for="inputDescription">Change map description</label>
           <input class="form-control" name="description" value="<%= map.description %>">
         </div>
-        <button type="submit" class="btn btn-primary">Edit</button>
+        <button type="submit" class="btn btn-primary">Submit Changes</button>
       </form>
+      <a class="btn btn-secondary" id="new-point-form-cancel" href="/maps/<%=map.id%>">Return to Map</a>
       <form method="POST" action="/maps/<%= map.id %>/delete">
-          <button type="submit" class="btn btn-danger">Delete</button>
+          <button type="submit" class="btn btn-danger">Delete Map</button>
       </form>
-      <a class="btn btn-danger" id="new-point-form-cancel" href="/maps/<%=map.id%>">Cancel</a>
     </main>
   <% } else { %>
     <h3>Please Login to view this content</h3>

@@ -37,13 +37,13 @@
           <h5 class="card-title"><%= map_name %></h5>
           <p class="card-text"><%= description %></p>
           <p class="card-text">Map created by: <%= creator_name %></p>
-          <a href="/maps" class="btn btn-primary">Return to Maps</a>
           <% if (id) { %>
             <a href="/maps/<%= map_id %>/edit" class="btn btn-primary">Edit</a>
             <form input style="display: inline;" method="POST" action="/maps/<%= map_id %>/favs">
-              <button type="submit" class="btn btn-primary">Add Map to Favourites</button>
+              <button type="submit" class="btn btn-primary">Add to Favourites</button>
             </form>
-          <% } %>
+            <% } %>
+            <a href="/maps" class="btn btn-secondary">Return to Maps</a>
       </div>
       <!-- list the points on the map -->
       <section class="card-body">
