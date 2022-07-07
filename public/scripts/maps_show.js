@@ -1,8 +1,5 @@
 $(document).ready(function() {
 
-  const apiKey = "AAPK7046718103a34f8c9cdf6a3db575ea9dznUHxBthgbCiLdxLNu1gX7l4d9VmRAAOgwSADsUrlCi8a63S_OXlc7M6vgH37BK1";
-  const basemapEnum = "ArcGIS:Navigation";
-  
   console.log(map_id);
   let initialLat = 43.7;
   let initialLong = -79.4;

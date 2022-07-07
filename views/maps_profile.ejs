@@ -72,11 +72,6 @@
                 <td><%= map.name%></td>
                 <td><%-map.description%></td>
                 <td>
-<<<<<<< HEAD
-=======
-                  <style>form { display: inline; }</style>
-
->>>>>>> master
                   <a href="/maps/<%- map.id %>" class="btn btn-outline-primary" style="border:none;" data-toggle="tooltip" data-placement="left" title="View Map Details"><i class="fa-solid fa-eye"></i> View</a>
                   <a href="/maps/<%= map.id %>/edit" class="btn btn-outline-warning" style="border:none;" data-toggle="tooltip" data-placement="left" title="Edit Map Details"><i class="fa-solid fa-pencil"></i> Edit</a>
                   <form class="form-inline" method="POST" action="/maps/<%= map.fav_id %>/unfave"><button style="border:none" type="submit" class="btn btn-outline-danger" data-toggle="tooltip" data-placement="left" title="Remove Map From Favourites"><i class="fa-solid fa-trash-can"></i> Remove</button></form>
