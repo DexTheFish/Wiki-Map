@@ -17,6 +17,7 @@
 
   <!-- Internal CSS-->
   <link rel="stylesheet" href="/styles/scroll_up.css" type="text/css" />
+  <link rel="stylesheet" href="/styles/forms.css" type="text/css" />
 
   <!-- Scripts -->
   <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
@@ -47,15 +48,15 @@
           </tr>
         </thead>
         <tbody>
-          <%for (let map of maps) {%>
+          <% for (let map of maps) { %>
             <tr>
               <td><a href="/maps/<%- map.id %>"><img src="https://cdn-icons-png.flaticon.com/512/1653/1653458.png" style="width:6em;height:6em;"></a></td>
               <td><%=map.name%></td>
               <td><%=map.description%></td>
-              <td class="container mx-auto">
-                <a href="/maps/<%- map.id %>" class="btn btn-outline-primary p-2"><i class="fa-solid fa-eye"></i> View</a>
+              <td>
+                <a href="/maps/<%- map.id %>" class="btn btn-outline-primary p-2" style="border:none;"><i class="fa-solid fa-eye"></i> View</a>
                 <% if (id) { %>
-                  <form class="form-inline" method="POST" action="/maps/<%= map.id %>/delete"><button type="submit" class="btn btn-outline-danger d-block p-2"><i class="fa-solid fa-trash-can"></i> Delete</button></form>
+                  <form class="form-inline" method="POST" action="/maps/<%= map.id %>/delete"><button type="submit" class="btn btn-outline-danger d-block p-2" style="border:none;"><i class="fa-solid fa-trash-can"></i> Remove</button></form>
                 <% } %>
               </td>
             </tr>
