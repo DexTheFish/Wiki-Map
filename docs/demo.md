@@ -38,9 +38,10 @@ Dex:
   -git workflow, scheduling,
 
 Abi:
+  - features we would love to add
+  - turning it into a single page and making the page more dynamic
+  
   - vertical vs horizontal
-
-
 - stretch features we were proud of:
   - geolocation
 - challenges:
