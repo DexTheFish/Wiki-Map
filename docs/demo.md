@@ -34,6 +34,9 @@ Dex: describe profile
 
 Calvin:
   -talk about geolocation Stretch
+  -our approach to problem was to build out the flow and datastructure of the app before we connected the map 
+  -one of the biggest challenges was to convert our location data into actual points on a map in terms of latlong
+  -we knew that that wouldn't be the most convenient way to add points so as a stretch feature we really wanted to have a search feature that would geocode the latlong for us
 Dex:
   -git workflow, scheduling,
 
