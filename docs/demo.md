@@ -1,5 +1,9 @@
 
 Navigator: Dex
+checklist:
+-start on map
+-url copy-pasted
+-db:reset and seeds configured
 
 ## Intro
 - Our names (order: Cal, Abi, Dex)
@@ -19,6 +23,8 @@ Abi: describe logged in features
   - log in
   - add map
   - add point
+    -click
+    search
   - remove point
   - add map to favourites
 
@@ -26,7 +32,7 @@ Dex: describe profile
   - notice Favourites
   - describe Contributions
   - remove favourite
-  - edit contribution
+  - edit contribution CINEMA
   - add new favourite
   - what a cool profile!
 
@@ -38,7 +44,9 @@ Dex:
   -git workflow, scheduling,
 
 Abi:
-  - vertical vs horizontal
+  - things we want to add
+  - we are really proud of our app. Thanks for your time! Goodbye!
+
 
 
 - stretch features we were proud of:
