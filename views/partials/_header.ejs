@@ -1,12 +1,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400&family=Titan+One&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="/styles/header.css" type="text/css" />
 
+<div id = "header-bg-img">
+<div id = "header-bg">
 <header class="sticky-top">
-  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <a class="navbar-brand" href="/maps">Rosette</a>
+  <nav class="navbar navbar-expand-md navbar-dark">
+    <a class="navbar-brand" href="/maps"><h1>Rosette</h1></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -38,7 +40,7 @@
         <form action="/users/logout" method="POST">
           <div class="form-group d-flex flex-row justify-content-center align-items-center mb-0">
             <p class="text-light align-self-center mb-0">Logged In As: <%= name.name %></label></p>
-            <button class="btn btn-outline-danger" style="margin:0.5em">Logout</button>
+            <button class="btn btn-danger" style="margin:0.5em">Logout</button>
           </div>
         </form>
         <%} else { %>
@@ -50,3 +52,5 @@
     </div>
   </nav>
 </header>
+</div>
+</div>
