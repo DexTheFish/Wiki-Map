@@ -38,10 +38,10 @@
         <div id="map" style="height: 45em; width: 100%" class=""></div>
         <div class="card-body">
           <!-- list the points on the map -->
-          <section class="card-body">
-            <h6>List of Points</h6>
+          <section class="card-body" >
+            <!-- <h6>List of Points</h6> -->
             <% for (const point of points) {%>
-              <a href="/points/<%=point.id%>"><%=point.name%></a>
+              <a href="/points/<%=point.id%>"><%=point.name%> </a> | 
             <%}%>
             <% if (points.length === 0) {%>
               <p>No points added yet.</p>
