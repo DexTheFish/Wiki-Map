@@ -115,7 +115,7 @@ module.exports = (db) => {
       templateVars.name = req.session.name;
 
       console.log(req.session.name);
-      res.redirect("/maps/profile");
+      res.redirect("/maps");
     })
     .catch(err=>res.send(err.message));
   });
