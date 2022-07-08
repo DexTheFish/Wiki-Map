@@ -8,7 +8,7 @@ checklist:
 ## Intro
 - Our names (order: Cal, Abi, Dex)
 - Calvin: loves spatial stuff
-- Abi:
+- Abi: thought it would be a fun challenge
 - Dex: excited to use API
 
 ## Body
@@ -21,11 +21,16 @@ Calvin: describe logged out features
 
 Abi: describe logged in features
   - log in
+    - notice more options on page
+    - in the nav bar you can now see add map
   - add map
+    - zooms in automatically to toronto
   - add point
-    -click
-    search
+    -click to add point
+    -search to add point
   - remove point
+    - option to edit point available
+    - we will delete the point
   - add map to favourites
 
 Dex: describe profile
@@ -47,13 +52,14 @@ Dex:
   -git workflow, scheduling,
 
 Abi:
-  - features we would love to add
-  - turning it into a single page and making the page more dynamic
+  - a feature we would love to add is making the app more dynamic
+  - currently everything we walked through is on its own spearate page
+  - given more time we would refactor and make it a single page app
+  - All in all though we are really proud of our app! Thank you for your time :)
   
   - vertical vs horizontal
   - things we want to add
   - we are really proud of our app. Thanks for your time! Goodbye!
-
 
 
 - stretch features we were proud of:
