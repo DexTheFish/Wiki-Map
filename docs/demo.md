@@ -32,10 +32,17 @@ Dex: describe profile
 
 ## Conclusions
 
+Calvin:
+  -talk about geolocation Stretch
+Dex:
+  -git workflow, scheduling,
+
+Abi:
+  - vertical vs horizontal
+
 
 - stretch features we were proud of:
   - geolocation
-
 - challenges:
   - teamwork / git workflow
   - scheduling around a team
@@ -45,10 +52,6 @@ Dex: describe profile
   - planning
   - needs vertical workflow
   - good naming practices
-
-
-
-
 
 
 Challenges, lessons learned, stretches
