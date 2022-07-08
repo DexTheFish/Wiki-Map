@@ -1,4 +1,36 @@
 .navbar-brand {
   font-family: 'Titan One', cursive;
+  color: white;
+}
+
+.navbar-nav {
+  color: white;
+  z-index: 99;
+}
+
+#header-bg-img {
+  background-image: url("/images/25304.png");
+  opacity: 95%;
+}
+
+#header-bg {
+  background-color: rgba(153, 99, 0, 0.938);
+}
+
+h1 {
   font-size: 48px;
+  color: white;
+  text-shadow: 2px 2px 4px #000000;
+}
+
+header {
+  font-family: 'Rubik', sans-serif;
+}
+
+.nav-item.nav-link {
+  font-size: 20px;
+  color: white;
+  text-shadow: 2px 2px 4px #000000;
+  z-index:99;
+  opacity: 100%;
 }
