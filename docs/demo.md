@@ -15,7 +15,10 @@ checklist:
 
 Calvin: describe logged out features
   - start on a map
-  - navigate to a point
+  - click on the middle three points
+  - notice the list of points
+  - click on a point
+  - cool!  I'd like to add my point to this map...I wonder how?
   - Return to Maps
   - Can I make a new map?
 
